@@ -1,0 +1,47 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.tmp
+*.swp
+.env
+.venv/
+venv/
+ENV/
+
+# --- Lambda build artifacts ---
+build/
+*.zip
+
+# --- Terraform ---
+**/.terraform/*
+**/.terraform.lock.hcl
+**/*.tfstate
+**/*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# --- AWS CLI credentials (never commit these) ---
+.aws/
+*.pem
+*.key
+
+# --- CodeBuild / CodePipeline logs ---
+*.build/
+codebuild-output.log
+
+# --- IDE / Editor specific ---
+.vscode/
+.idea/
+*.iml
+
+# --- OS generated files ---
+.DS_Store
+Thumbs.db
