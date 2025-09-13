@@ -1,6 +1,14 @@
 import sys
 import os
+
+# Add repo root to path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+# --- Set environment variables before importing the Lambda ---
+os.environ["BUCKET_NAME"] = "dummy-bucket"
+os.environ["DYNAMO_TABLE"] = "dummy-table"
+os.environ["LLM_MODEL"] = "dummy-model"
+
 import pytest
 import json
 from unittest.mock import patch, MagicMock
@@ -36,11 +44,6 @@ def test_llm_analysis_lambda_success(mock_resource, mock_client):
     mock_dynamodb = MagicMock()
     mock_dynamodb.Table.return_value = mock_table
     mock_resource.return_value = mock_dynamodb
-
-    # Set environment variables
-    llm_analysis_lambda.BUCKET_NAME = "dummy-bucket"
-    llm_analysis_lambda.DYNAMO_TABLE = "dummy-table"
-    llm_analysis_lambda.LLM_MODEL = "dummy-model"
 
     event = {"Records":[{"s3":{"object":{"key":"processed/2025-09-13/data.json"}}}]}
     context = MagicMock(aws_request_id="req-123")

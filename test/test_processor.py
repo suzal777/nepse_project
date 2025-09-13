@@ -1,6 +1,12 @@
 import sys
 import os
+
+# Add repo root to path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+# --- Set environment variables before importing the Lambda ---
+os.environ["BUCKET_NAME"] = "dummy-bucket"
+
 import pytest
 import json
 from unittest.mock import patch, MagicMock
@@ -15,8 +21,6 @@ def test_processor_lambda_success(mock_boto):
     mock_s3 = MagicMock()
     mock_s3.get_object.return_value = {"Body": MagicMock(read=MagicMock(return_value=json.dumps(raw_data)))}
     mock_boto.return_value = mock_s3
-
-    processor_lambda.BUCKET_NAME = "dummy-bucket"
 
     event = {"Records":[{"s3":{"object":{"key":"raw/2025-09-13/data.json"}}}]}
     context = {}
