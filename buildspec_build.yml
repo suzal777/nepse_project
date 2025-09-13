@@ -32,3 +32,4 @@ artifacts:
   files:
     - build/*.zip
     - terraform/**
+    - buildspec_deploy.yml
