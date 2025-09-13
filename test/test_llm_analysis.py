@@ -2,6 +2,7 @@ import os
 import json
 from lambdas import llm_analysis_lambda
 from unittest.mock import MagicMock
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # Set environment variables
 os.environ["BUCKET_NAME"] = "dummy-bucket"
