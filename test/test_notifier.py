@@ -1,7 +1,8 @@
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from lambdas import notifier_lambda
 from unittest.mock import MagicMock
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 os.environ["SES_EMAIL_FROM"] = "from@example.com"
 os.environ["SES_EMAIL_TO"] = "to@example.com"
