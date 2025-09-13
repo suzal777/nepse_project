@@ -1,17 +1,16 @@
-import sys
 import os
-
-# Add repo root to path
+import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-# --- Set environment variables before importing the Lambda ---
-os.environ["BUCKET_NAME"] = "dummy-bucket"
-os.environ["DYNAMO_TABLE"] = "dummy-table"
-os.environ["LLM_MODEL"] = "dummy-model"
 
 import pytest
 import json
 from unittest.mock import patch, MagicMock
+
+# Set environment variables before importing
+os.environ["BUCKET_NAME"] = "dummy-bucket"
+os.environ["DYNAMO_TABLE"] = "dummy-table"
+os.environ["LLM_MODEL"] = "dummy-model"
+
 from lambdas import llm_analysis_lambda
 
 @patch("lambdas.llm_analysis_lambda.boto3.client")
@@ -28,7 +27,15 @@ def test_llm_analysis_lambda_success(mock_resource, mock_client):
     
     # Mock Bedrock client
     mock_bedrock = MagicMock()
-    mock_bedrock.invoke_model.return_value = {"body": MagicMock(read=lambda: json.dumps({"output":{"message":{"content":[{"text":"MARKET SUMMARY\nTest\nANOMALIES\nNone\nSUGGESTIONS\nNone"}]}}}).encode())}
+    mock_bedrock.invoke_model.return_value = {
+        "body": MagicMock(
+            read=lambda: json.dumps({
+                "output":{
+                    "message":{"content":[{"text":"MARKET SUMMARY\nTest\nANOMALIES\nNone\nSUGGESTIONS\nNone"}]}
+                }
+            }).encode()
+        )
+    }
     
     # Mock EventBridge
     mock_events = MagicMock()

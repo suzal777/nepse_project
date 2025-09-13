@@ -1,15 +1,14 @@
-import sys
 import os
-
-# Add repo root to path
+import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-# --- Set environment variables before importing the Lambda ---
-os.environ["BUCKET_NAME"] = "dummy-bucket"
 
 import pytest
 import json
 from unittest.mock import patch, MagicMock
+
+# Set environment variable before importing
+os.environ["BUCKET_NAME"] = "dummy-bucket"
+
 from lambdas import processor_lambda
 
 @patch("lambdas.processor_lambda.boto3.client")

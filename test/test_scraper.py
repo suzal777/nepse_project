@@ -1,15 +1,13 @@
-import sys
 import os
-
-# Add repo root to path
+import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-# --- Set environment variables before importing the Lambda ---
+import pytest
+from unittest.mock import patch, MagicMock
+
+# Set environment variable before importing
 os.environ["BUCKET_NAME"] = "dummy-bucket"
 
-import pytest
-import json
-from unittest.mock import patch, MagicMock
 from lambdas import scraper_lambda
 
 @patch("lambdas.scraper_lambda.boto3.client")
@@ -19,7 +17,7 @@ def test_scraper_lambda_success(mock_get, mock_boto):
     mock_response = MagicMock()
     mock_response.text = """
     <table id="headFixed"><tbody>
-    <tr><td>1</td><td>Symbol</td><td>100</td></tr>
+    <tr><td>1</td><td>SYM</td><td>100</td></tr>
     </tbody></table>
     """
     mock_response.raise_for_status.return_value = None
@@ -31,6 +29,7 @@ def test_scraper_lambda_success(mock_get, mock_boto):
 
     event = {}
     context = {}
+
     result = scraper_lambda.lambda_handler(event, context)
 
     assert result["status"] == "success"
