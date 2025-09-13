@@ -26,7 +26,7 @@ phases:
       - terraform validate
       - cd ..
       - echo "Running Python tests..."
-      - pytest test/ -v
+      - pytest test/ -v --disable-warnings --maxfail=1
 
 artifacts:
   files:

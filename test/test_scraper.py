@@ -5,14 +5,15 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import pytest
 from unittest.mock import patch, MagicMock
 
-# Set environment variable before importing
+# Set environment variable before importing Lambda
 os.environ["BUCKET_NAME"] = "dummy-bucket"
 
-from lambdas import scraper_lambda
+# Patch boto3.client and requests.get before importing Lambda
+with patch("lambdas.scraper_lambda.boto3.client") as mock_boto, \
+     patch("lambdas.scraper_lambda.requests.get") as mock_get:
 
-@patch("lambdas.scraper_lambda.boto3.client")
-@patch("lambdas.scraper_lambda.requests.get")
-def test_scraper_lambda_success(mock_get, mock_boto):
+    from lambdas import scraper_lambda
+
     # Mock HTTP response
     mock_response = MagicMock()
     mock_response.text = """
@@ -27,11 +28,11 @@ def test_scraper_lambda_success(mock_get, mock_boto):
     mock_s3 = MagicMock()
     mock_boto.return_value = mock_s3
 
-    event = {}
-    context = {}
+    def test_scraper_lambda_success():
+        event = {}
+        context = {}
+        result = scraper_lambda.lambda_handler(event, context)
 
-    result = scraper_lambda.lambda_handler(event, context)
-
-    assert result["status"] == "success"
-    assert "records" in result
-    mock_s3.put_object.assert_called_once()
+        assert result["status"] == "success"
+        assert "records" in result
+        mock_s3.put_object.assert_called_once()
