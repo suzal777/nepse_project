@@ -23,6 +23,11 @@ resource "random_id" "suffix" {
 resource "aws_s3_bucket" "market" {
   bucket        = "${var.bucket_prefix}-${random_id.suffix.hex}"
   force_destroy = true
+
+  tags = {
+    Owner     = "Sujal Phaiju"
+    ManagedBy = "terraform"
+  }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "market" {
@@ -79,6 +84,11 @@ resource "aws_lambda_function" "scraper" {
       TARGET_URL  = var.target_url
     }
   }
+
+  tags = {
+    Owner     = "Sujal Phaiju"
+    ManagedBy = "terraform"
+  }
 }
 
 # --- Processor Lambda ---
@@ -96,6 +106,11 @@ resource "aws_lambda_function" "processor" {
     variables = {
       BUCKET_NAME = aws_s3_bucket.market.bucket
     }
+  }
+
+  tags = {
+    Owner     = "Sujal Phaiju"
+    ManagedBy = "terraform"
   }
 }
 
@@ -128,6 +143,11 @@ resource "aws_dynamodb_table" "llm_analysis" {
   attribute {
     name = "file_key"
     type = "S"
+  }
+
+  tags = {
+    Owner     = "Sujal Phaiju"
+    ManagedBy = "terraform"
   }
 }
 
@@ -206,6 +226,11 @@ resource "aws_lambda_function" "llm_analysis" {
       LLM_MODEL       = "amazon.nova-lite-v1:0"
       ALERT_EVENT_BUS = "default"
     }
+  }
+
+  tags = {
+    Owner     = "Sujal Phaiju"
+    ManagedBy = "terraform"
   }
 }
 
@@ -301,6 +326,11 @@ resource "aws_lambda_function" "notifier_lambda" {
       SES_EMAIL_FROM = var.ses_email_from
       SES_EMAIL_TO   = var.ses_email_to
     }
+  }
+
+  tags = {
+    Owner     = "Sujal Phaiju"
+    ManagedBy = "terraform"
   }
 }
 
