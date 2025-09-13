@@ -7,8 +7,8 @@ phases:
     commands:
       - echo "Installing Terraform..."
       - yum install -y unzip wget || true
-      - wget https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip
-      - unzip terraform_1.9.8_linux_amd64.zip -d /usr/local/bin/
+      - wget https://releases.hashicorp.com/terraform/1.13.2/terraform_1.13.2_linux_amd64.zip
+      - unzip terraform_1.13.2_linux_amd64.zip -d /usr/local/bin/
       - terraform -version
 
   build:
