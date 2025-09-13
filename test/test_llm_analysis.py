@@ -2,13 +2,12 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import json
+os.environ.setdefault("BUCKET_NAME", "dummy-bucket")
+os.environ.setdefault("DYNAMO_TABLE", "dummy-table")
+os.environ.setdefault("LLM_MODEL", "dummy-model")
+
 from lambdas import llm_analysis_lambda
 from unittest.mock import MagicMock
-
-# Set environment variables
-os.environ["BUCKET_NAME"] = "dummy-bucket"
-os.environ["DYNAMO_TABLE"] = "dummy-table"
-os.environ["LLM_MODEL"] = "dummy-model"
 
 def test_llm_analysis_lambda_simple():
     # Fake event and context

@@ -1,11 +1,10 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+os.environ.setdefault("BUCKET_NAME", "dummy-bucket")
 
 from lambdas import scraper_lambda
 from unittest.mock import MagicMock
-
-os.environ["BUCKET_NAME"] = "dummy-bucket"
 
 def test_scraper_lambda_simple():
     event = {}
