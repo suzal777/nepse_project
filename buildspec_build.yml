@@ -6,9 +6,13 @@ phases:
       python: 3.10
     commands:
       - echo "Installing dependencies..."
-      - yum install -y make zip || apt-get update && apt-get install -y make zip || true
+      - yum install -y make zip unzip wget || apt-get update && apt-get install -y make zip unzip wget || true
       - pip install -r lambdas/requirements.txt
       - pip install pytest
+      - echo "Installing Terraform..."
+      - wget https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip
+      - unzip terraform_1.9.8_linux_amd64.zip -d /usr/local/bin/
+      - terraform -version
 
   build:
     commands:
