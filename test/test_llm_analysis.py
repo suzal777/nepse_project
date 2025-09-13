@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "lambdas"))
 import pytest
 import json
 from unittest.mock import patch, MagicMock
@@ -17,7 +20,7 @@ def test_llm_analysis_lambda_success(mock_resource, mock_client):
     
     # Mock Bedrock client
     mock_bedrock = MagicMock()
-    mock_bedrock.invoke_model.return_value = {"body": MagicMock(read=lambda: json.dumps({"output":{"message":{"content":[{"text":"MARKET SUMMARY\nTest\nANOMALIES\nNone\nSUGGESTIONS\nNone"}}]}}).encode())}
+    mock_bedrock.invoke_model.return_value = {"body": MagicMock(read=lambda: json.dumps({"output":{"message":{"content":[{"text":"MARKET SUMMARY\nTest\nANOMALIES\nNone\nSUGGESTIONS\nNone"}]}}}).encode())}
     
     # Mock EventBridge
     mock_events = MagicMock()
