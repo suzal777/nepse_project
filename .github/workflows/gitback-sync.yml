@@ -59,20 +59,20 @@ jobs:
 
       # Step 6: Auto-merge if no conflicts
       - name: Auto-merge PR
-        id: merge-pr
-        if: steps.create-pr.outputs.pr_url != ''
+        if: steps.create-pr.outputs.pull-request-url != ''
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          PR_NUMBER=$(gh pr view "${{ steps.create-pr.outputs.pr_url }}" --json number --jq '.number')
+          PR_NUMBER=$(gh pr view "${{ steps.create-pr.outputs.pull-request-url }}" --json number --jq '.number')
           MERGEABLE=$(gh pr view $PR_NUMBER --json mergeable --jq '.mergeable')
-          if [ "$MERGEABLE" = "MERGEABLE" ]; then
-            gh pr merge $PR_NUMBER --squash --auto
+          if [ "$MERGEABLE" = "true" ]; then
+            echo "PR #$PR_NUMBER is mergeable. Merging..."
+            gh pr merge $PR_NUMBER --squash --delete-branch
             echo "merged=true" >> $GITHUB_OUTPUT
-            echo "PR #$PR_NUMBER merged automatically."
           else
-            echo "merged=false" >> $GITHUB_OUTPUT
             echo "PR #$PR_NUMBER has conflicts. Manual merge required."
+            echo "merged=false" >> $GITHUB_OUTPUT
+          fi
 
       # Step 7: Delete uat-sync branch if merged
       - name: Delete uat-sync branch
