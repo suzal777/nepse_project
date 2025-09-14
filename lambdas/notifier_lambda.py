@@ -26,20 +26,27 @@ def lambda_handler(event, context):
 
         # ---- Row Counts Card ----
         html_counts = f"""
-        <div style='border:1px solid #3498DB; background:#EBF5FB; border-radius:5px; padding:10px; width:300px; display:inline-block; vertical-align:top; margin-right:10px;'>
-            <h3 style='color:#2E86C1; margin-top:0;'>Row Counts</h3>
-            <ul style='padding-left:15px;'>
-                <li>Raw Rows: {raw_count}</li>
-                <li>Processed Rows: {processed_count}</li>
-                <li>Rejected Rows: {rejected_count}</li>
-            </ul>
+        <div style='border:1px solid #34495E; border-radius:8px; background:#F4F6F7; padding:15px; width:300px; display:inline-block; vertical-align:top; box-shadow:2px 2px 8px rgba(0,0,0,0.1); margin-right:10px;'>
+            <h3 style='color:#34495E; margin-top:0;'>Row Counts</h3>
+            <table style='border-collapse: collapse; width:100%; text-align:left;'>
+                <tr style='background:#D5DBDB;'>
+                    <th style='border:1px solid #ddd; padding:5px;'>Raw</th>
+                    <th style='border:1px solid #ddd; padding:5px;'>Processed</th>
+                    <th style='border:1px solid #ddd; padding:5px;'>Rejected</th>
+                </tr>
+                <tr>
+                    <td style='border:1px solid #ddd; padding:5px;'>{raw_count}</td>
+                    <td style='border:1px solid #ddd; padding:5px;'>{processed_count}</td>
+                    <td style='border:1px solid #ddd; padding:5px;'>{rejected_count}</td>
+                </tr>
+            </table>
         </div>
         """
 
         # ---- Market Summary Card ----
         market_summary_html = html.escape(market_summary).replace("\n", "<br>") if market_summary else "No market summary available."
         html_market_summary = f"""
-        <div style='border:1px solid #2E86C1; background:#D6EAF8; border-radius:5px; padding:10px; width:600px; display:inline-block; vertical-align:top;'>
+        <div style='border:1px solid #2E86C1; border-radius:8px; background:#EAF2F8; padding:15px; width:600px; display:inline-block; vertical-align:top; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
             <h3 style='color:#2E86C1; margin-top:0;'>Market Summary</h3>
             <p>{market_summary_html}</p>
         </div>
@@ -50,38 +57,37 @@ def lambda_handler(event, context):
             anomaly_lines = [line.strip() for line in anomalies_str.splitlines() if line.strip()]
             anomalies_html = "<table style='border-collapse: collapse; width:100%; margin-bottom:10px;'>"
             anomalies_html += """
-            <tr>
+            <tr style='background:#FDEBD0;'>
                 <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Symbol</th>
                 <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Turnover</th>
                 <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Price Change</th>
                 <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Reason</th>
             </tr>
             """
-            for line in anomaly_lines:
+            for idx, line in enumerate(anomaly_lines):
                 parts = dict(part.strip().split(":", 1) for part in line.split(",") if ":" in part)
-                
                 price_change = parts.get('Price Change', '').strip()
                 price_color = 'green' if price_change.startswith('+') else 'red' if price_change.startswith('-') else 'black'
-
+                row_bg = '#FFF8E1' if idx % 2 == 0 else '#FEF9E7'
                 anomalies_html += f"""
-                <tr>
+                <tr style='background:{row_bg};'>
                     <td style='border:1px solid #ddd; padding:5px;'>{html.escape(parts.get('Symbol',''))}</td>
                     <td style='border:1px solid #ddd; padding:5px;'>{html.escape(parts.get('Turnover',''))}</td>
-                    <td style='border:1px solid #ddd; padding:5px; color:{price_color};'>{html.escape(price_change)}</td>
+                    <td style='border:1px solid #ddd; padding:5px; color:{price_color}; font-weight:bold;'>{html.escape(price_change)}</td>
                     <td style='border:1px solid #ddd; padding:5px;'>{html.escape(parts.get('Reason',''))}</td>
                 </tr>
                 """
             anomalies_html += "</table>"
             html_anomalies = f"""
-            <div style='border:1px solid #F1C40F; padding:10px; border-radius:5px; background:#FEF9E7; margin-top:15px;'>
-                <h2 style='color:#B9770E; margin-top:0;'>Anomalies</h2>
+            <div style='border:1px solid #F1C40F; border-radius:8px; background:#FEF9E7; padding:15px; margin-bottom:15px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
+                <h3 style='color:#B9770E; margin-top:0;'>Anomalies</h3>
                 {anomalies_html}
             </div>
             """
         else:
             html_anomalies = """
-            <div style='border:1px solid #F1C40F; padding:10px; border-radius:5px; background:#FEF9E7; margin-top:15px;'>
-                <h2 style='color:#B9770E; margin-top:0;'>Anomalies</h2>
+            <div style='border:1px solid #F1C40F; border-radius:8px; background:#FEF9E7; padding:15px; margin-bottom:15px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
+                <h3 style='color:#B9770E; margin-top:0;'>Anomalies</h3>
                 <p>No anomalies detected.</p>
             </div>
             """
@@ -98,14 +104,14 @@ def lambda_handler(event, context):
 
         if opportunity_html:
             opportunity_html = f"""
-            <div style='border:1px solid #27AE60; background:#E8F8F5; border-radius:5px; padding:10px; margin-top:15px;'>
+            <div style='border:1px solid #27AE60; border-radius:8px; background:#E9F7EF; padding:15px; margin-bottom:10px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
                 <h3 style='color:#27AE60; margin-top:0;'>Opportunities</h3>
                 <ul style='padding-left:15px;'>{opportunity_html}</ul>
             </div>
             """
         if risk_html:
             risk_html = f"""
-            <div style='border:1px solid #C0392B; background:#FDEDEC; border-radius:5px; padding:10px; margin-top:15px;'>
+            <div style='border:1px solid #C0392B; border-radius:8px; background:#FDEDEC; padding:15px; margin-bottom:10px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
                 <h3 style='color:#C0392B; margin-top:0;'>Risks</h3>
                 <ul style='padding-left:15px;'>{risk_html}</ul>
             </div>
@@ -113,8 +119,8 @@ def lambda_handler(event, context):
 
         if not opportunity_html and not risk_html:
             suggestions_html = """
-            <div style='border:1px solid #27AE60; padding:10px; border-radius:5px; background:#F9F9F9; margin-top:15px;'>
-                <h2 style='color:#27AE60; margin-top:0;'>Suggestions</h2>
+            <div style='border:1px solid #27AE60; border-radius:8px; background:#F9F9F9; padding:15px; margin-bottom:15px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
+                <h3 style='color:#27AE60; margin-top:0;'>Suggestions</h3>
                 <p>No suggestions available.</p>
             </div>
             """
@@ -124,11 +130,13 @@ def lambda_handler(event, context):
         # ---- Final HTML Body ----
         html_body = f"""
         <html>
-        <body style="font-family: Arial, sans-serif; line-height:1.5; color:#333;">
-            <h1 style="color:#34495E;">Daily Market Report</h1>
-            <p><strong>File Key:</strong> {html.escape(file_key)}</p>
-            <p><strong>Correlation ID:</strong> {html.escape(correlation_id)}</p>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <body style="font-family: Arial, sans-serif; line-height:1.5; color:#333; padding:20px; background:#F5F5F5;">
+            <h1 style="color:#34495E; text-align:center;">Daily Market Report</h1>
+            <div style='margin-bottom:15px;'>
+                <p><strong>File Key:</strong> {html.escape(file_key)}</p>
+                <p><strong>Correlation ID:</strong> {html.escape(correlation_id)}</p>
+            </div>
+            <div style="display:flex; gap:15px; flex-wrap:wrap;">
                 {html_counts}
                 {html_market_summary}
             </div>
@@ -141,17 +149,4 @@ def lambda_handler(event, context):
         subject = f"Daily Market Report - {file_key}"
 
         response = ses.send_email(
-            Source=email_from,
-            Destination={"ToAddresses": [email_to]},
-            Message={
-                "Subject": {"Data": subject},
-                "Body": {"Html": {"Data": html_body}}
-            }
-        )
-
-        print("SES Response:", response)
-        return {"status": "success", "message_id": response["MessageId"]}
-
-    except Exception as e:
-        print("Error sending SES email:", str(e))
-        return {"status": "error", "message": str(e)}
+            Source
