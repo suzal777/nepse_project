@@ -19,6 +19,3 @@ def test_scraper_lambda_simple():
 
     assert result["status"] == "success"
     assert "records" in result
-
-# testt git-back sync 
-# again testing git-back sync
