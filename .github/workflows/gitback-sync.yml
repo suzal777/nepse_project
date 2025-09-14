@@ -47,7 +47,7 @@ jobs:
       # Step 5: Create PR using GitHub CLI
       - name: Create PR to dev
         run: |
-          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh auth login --with-token <<< "${{ secrets.PAT_TOKEN }}"
           # Check if PR already exists
           PR_EXISTS=$(gh pr list --base dev --head uat-sync --json number --jq '.[].number')
           if [ -z "$PR_EXISTS" ]; then
