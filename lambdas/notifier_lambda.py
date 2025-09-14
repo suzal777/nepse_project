@@ -26,18 +26,18 @@ def lambda_handler(event, context):
 
         # ---- Row Counts Card ----
         html_counts = f"""
-        <div style='border:1px solid #34495E; border-radius:8px; background:#F4F6F7; padding:15px; width:300px; display:inline-block; vertical-align:top; box-shadow:2px 2px 8px rgba(0,0,0,0.1); margin-right:10px;'>
-            <h3 style='color:#34495E; margin-top:0;'>Row Counts</h3>
-            <table style='border-collapse: collapse; width:100%; text-align:left;'>
+        <div style='border:1px solid #34495E; border-radius:10px; background:#F4F6F7; padding:20px; width:300px; box-shadow:0 3px 8px rgba(0,0,0,0.12); margin-bottom:20px; font-family: "Segoe UI", Arial, sans-serif;'>
+            <h2 style='color:#34495E; font-size:18px; margin-top:0;'>Row Counts</h2>
+            <table style='border-collapse: collapse; width:100%; text-align:left; font-size:16px;'>
                 <tr style='background:#D5DBDB;'>
-                    <th style='border:1px solid #ddd; padding:5px;'>Raw</th>
-                    <th style='border:1px solid #ddd; padding:5px;'>Processed</th>
-                    <th style='border:1px solid #ddd; padding:5px;'>Rejected</th>
+                    <th style='border:1px solid #ddd; padding:8px;'>Raw</th>
+                    <th style='border:1px solid #ddd; padding:8px;'>Processed</th>
+                    <th style='border:1px solid #ddd; padding:8px;'>Rejected</th>
                 </tr>
                 <tr>
-                    <td style='border:1px solid #ddd; padding:5px;'>{raw_count}</td>
-                    <td style='border:1px solid #ddd; padding:5px;'>{processed_count}</td>
-                    <td style='border:1px solid #ddd; padding:5px;'>{rejected_count}</td>
+                    <td style='border:1px solid #ddd; padding:8px;'>{raw_count}</td>
+                    <td style='border:1px solid #ddd; padding:8px;'>{processed_count}</td>
+                    <td style='border:1px solid #ddd; padding:8px;'>{rejected_count}</td>
                 </tr>
             </table>
         </div>
@@ -46,49 +46,49 @@ def lambda_handler(event, context):
         # ---- Market Summary Card ----
         market_summary_html = html.escape(market_summary).replace("\n", "<br>") if market_summary else "No market summary available."
         html_market_summary = f"""
-        <div style='border:1px solid #2E86C1; border-radius:8px; background:#EAF2F8; padding:15px; width:600px; display:inline-block; vertical-align:top; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
-            <h3 style='color:#2E86C1; margin-top:0;'>Market Summary</h3>
-            <p>{market_summary_html}</p>
+        <div style='border:1px solid #2E86C1; border-radius:10px; background:#EAF2F8; padding:20px; width:600px; box-shadow:0 3px 8px rgba(0,0,0,0.12); margin-bottom:20px; font-family: "Segoe UI", Arial, sans-serif;'>
+            <h2 style='color:#2E86C1; font-size:18px; margin-top:0;'>Market Summary</h2>
+            <p style='font-size:16px; line-height:1.6;'>{market_summary_html}</p>
         </div>
         """
 
         # ---- Anomalies Card ----
         if anomalies_str:
             anomaly_lines = [line.strip() for line in anomalies_str.splitlines() if line.strip()]
-            anomalies_html = "<table style='border-collapse: collapse; width:100%; margin-bottom:10px;'>"
+            anomalies_html = "<table style='border-collapse: collapse; width:100%; margin-bottom:10px; font-size:15px;'>"
             anomalies_html += """
-            <tr style='background:#FDEBD0;'>
-                <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Symbol</th>
-                <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Turnover</th>
-                <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Price Change</th>
-                <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Reason</th>
+            <tr style='background:#FFF3CD;'>
+                <th style='border:1px solid #ddd; padding:8px; text-align:left;'>Symbol</th>
+                <th style='border:1px solid #ddd; padding:8px; text-align:left;'>Turnover</th>
+                <th style='border:1px solid #ddd; padding:8px; text-align:left;'>Price Change</th>
+                <th style='border:1px solid #ddd; padding:8px; text-align:left;'>Reason</th>
             </tr>
             """
             for idx, line in enumerate(anomaly_lines):
                 parts = dict(part.strip().split(":", 1) for part in line.split(",") if ":" in part)
                 price_change = parts.get('Price Change', '').strip()
-                price_color = 'green' if price_change.startswith('+') else 'red' if price_change.startswith('-') else 'black'
-                row_bg = '#FFF8E1' if idx % 2 == 0 else '#FEF9E7'
+                price_color = 'green' if price_change.startswith('+') else 'red' if price_change.startswith('-') else 'green'
+                row_bg = '#FFF9E6' if idx % 2 == 0 else '#FFF3CD'
                 anomalies_html += f"""
                 <tr style='background:{row_bg};'>
-                    <td style='border:1px solid #ddd; padding:5px;'>{html.escape(parts.get('Symbol',''))}</td>
-                    <td style='border:1px solid #ddd; padding:5px;'>{html.escape(parts.get('Turnover',''))}</td>
-                    <td style='border:1px solid #ddd; padding:5px; color:{price_color}; font-weight:bold;'>{html.escape(price_change)}</td>
-                    <td style='border:1px solid #ddd; padding:5px;'>{html.escape(parts.get('Reason',''))}</td>
+                    <td style='border:1px solid #ddd; padding:8px;'>{html.escape(parts.get('Symbol',''))}</td>
+                    <td style='border:1px solid #ddd; padding:8px;'>{html.escape(parts.get('Turnover',''))}</td>
+                    <td style='border:1px solid #ddd; padding:8px; color:{price_color}; font-weight:bold;'>{html.escape(price_change)}</td>
+                    <td style='border:1px solid #ddd; padding:8px;'>{html.escape(parts.get('Reason',''))}</td>
                 </tr>
                 """
             anomalies_html += "</table>"
             html_anomalies = f"""
-            <div style='border:1px solid #F1C40F; border-radius:8px; background:#FEF9E7; padding:15px; margin-bottom:15px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
-                <h3 style='color:#B9770E; margin-top:0;'>Anomalies</h3>
+            <div style='border:1px solid #F1C40F; border-radius:10px; background:#FFF9E6; padding:20px; margin-bottom:20px; box-shadow:0 3px 8px rgba(0,0,0,0.12); font-family: "Segoe UI", Arial, sans-serif;'>
+                <h2 style='color:#B9770E; font-size:18px; margin-top:0;'>Anomalies</h2>
                 {anomalies_html}
             </div>
             """
         else:
             html_anomalies = """
-            <div style='border:1px solid #F1C40F; border-radius:8px; background:#FEF9E7; padding:15px; margin-bottom:15px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
-                <h3 style='color:#B9770E; margin-top:0;'>Anomalies</h3>
-                <p>No anomalies detected.</p>
+            <div style='border:1px solid #F1C40F; border-radius:10px; background:#FFF9E6; padding:20px; margin-bottom:20px; box-shadow:0 3px 8px rgba(0,0,0,0.12); font-family: "Segoe UI", Arial, sans-serif;'>
+                <h2 style='color:#B9770E; font-size:18px; margin-top:0;'>Anomalies</h2>
+                <p style='font-size:16px;'>No anomalies detected.</p>
             </div>
             """
 
@@ -104,24 +104,24 @@ def lambda_handler(event, context):
 
         if opportunity_html:
             opportunity_html = f"""
-            <div style='border:1px solid #27AE60; border-radius:8px; background:#E9F7EF; padding:15px; margin-bottom:10px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
-                <h3 style='color:#27AE60; margin-top:0;'>Opportunities</h3>
-                <ul style='padding-left:15px;'>{opportunity_html}</ul>
+            <div style='border:1px solid #27AE60; border-radius:10px; background:#E9F7EF; padding:20px; margin-bottom:10px; box-shadow:0 3px 8px rgba(0,0,0,0.12); font-family: "Segoe UI", Arial, sans-serif;'>
+                <h2 style='color:#27AE60; font-size:18px; margin-top:0;'>Opportunities</h2>
+                <ul style='padding-left:20px; font-size:16px;'>{opportunity_html}</ul>
             </div>
             """
         if risk_html:
             risk_html = f"""
-            <div style='border:1px solid #C0392B; border-radius:8px; background:#FDEDEC; padding:15px; margin-bottom:10px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
-                <h3 style='color:#C0392B; margin-top:0;'>Risks</h3>
-                <ul style='padding-left:15px;'>{risk_html}</ul>
+            <div style='border:1px solid #C0392B; border-radius:10px; background:#FDEDEC; padding:20px; margin-bottom:10px; box-shadow:0 3px 8px rgba(0,0,0,0.12); font-family: "Segoe UI", Arial, sans-serif;'>
+                <h2 style='color:#C0392B; font-size:18px; margin-top:0;'>Risks</h2>
+                <ul style='padding-left:20px; font-size:16px;'>{risk_html}</ul>
             </div>
             """
 
         if not opportunity_html and not risk_html:
             suggestions_html = """
-            <div style='border:1px solid #27AE60; border-radius:8px; background:#F9F9F9; padding:15px; margin-bottom:15px; box-shadow:2px 2px 8px rgba(0,0,0,0.1);'>
-                <h3 style='color:#27AE60; margin-top:0;'>Suggestions</h3>
-                <p>No suggestions available.</p>
+            <div style='border:1px solid #27AE60; border-radius:10px; background:#F9F9F9; padding:20px; margin-bottom:20px; box-shadow:0 3px 8px rgba(0,0,0,0.12); font-family: "Segoe UI", Arial, sans-serif;'>
+                <h2 style='color:#27AE60; font-size:18px; margin-top:0;'>Suggestions</h2>
+                <p style='font-size:16px;'>No suggestions available.</p>
             </div>
             """
         else:
@@ -130,16 +130,14 @@ def lambda_handler(event, context):
         # ---- Final HTML Body ----
         html_body = f"""
         <html>
-        <body style="font-family: Arial, sans-serif; line-height:1.5; color:#333; padding:20px; background:#F5F5F5;">
-            <h1 style="color:#34495E; text-align:center;">Daily Market Report</h1>
-            <div style='margin-bottom:15px;'>
-                <p><strong>File Key:</strong> {html.escape(file_key)}</p>
-                <p><strong>Correlation ID:</strong> {html.escape(correlation_id)}</p>
+        <body style="font-family: 'Segoe UI', Arial, sans-serif; line-height:1.6; color:#333; padding:20px;">
+            <h1 style="color:#34495E; text-align:center; font-size:24px; margin-bottom:30px;">Daily Market Report</h1>
+            <div style='margin-bottom:20px;'>
+                <p style='font-size:16px; margin:2px 0;'><strong>File Key:</strong> {html.escape(file_key)}</p>
+                <p style='font-size:16px; margin:2px 0;'><strong>Correlation ID:</strong> {html.escape(correlation_id)}</p>
             </div>
-            <div style="display:flex; gap:15px; flex-wrap:wrap;">
-                {html_counts}
-                {html_market_summary}
-            </div>
+            {html_counts}
+            {html_market_summary}
             {html_anomalies}
             {suggestions_html}
         </body>
