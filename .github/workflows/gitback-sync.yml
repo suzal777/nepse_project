@@ -1,0 +1,84 @@
+name: Gitback Sync UAT -> Dev
+
+# Trigger workflow only on push to uat
+on:
+  push:
+    branches:
+      - uat
+
+jobs:
+  gitback-sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          ref: uat
+          fetch-depth: 0  # fetch all history so we can push
+
+      # Step 2: Configure Git
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Step 3: Create or update the persistent sync branch
+      - name: Prepare persistent sync branch
+        run: |
+          git fetch origin dev
+          if git show-ref --verify --quiet refs/heads/uat-sync; then
+            git checkout uat-sync
+          else
+            git checkout -b uat-sync origin/dev
+          fi
+          git merge origin/uat --no-ff -m "Sync hotfix from uat to dev"
+
+      # Step 4: Push sync branch
+      - name: Push sync branch
+        run: |
+          git push origin uat-sync --force
+
+      # Step 5: Create or update PR
+      - name: Create PR to dev
+        id: pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Sync hotfix from uat to dev"
+          branch: uat-sync
+          base: dev
+          title: "Gitback Sync: uat -> dev"
+          body: "Automated PR to sync changes from uat to dev."
+          merge-method: squash
+          delete-branch: false
+
+      # Step 6: Auto-merge if no conflicts
+      - name: Auto-merge PR if clean
+        if: steps.pr.outputs.pull-request-number != ''
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = parseInt("${{ steps.pr.outputs.pull-request-number }}");
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+
+            if (pr.data.mergeable_state === 'clean') {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                merge_method: 'squash'
+              });
+              console.log(`PR #${prNumber} merged automatically.`);
+            } else {
+              console.log(`PR #${prNumber} has conflicts. Manual merge required.`);
+            }
