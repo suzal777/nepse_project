@@ -94,9 +94,9 @@ def lambda_handler(event, context):
                     price_bg = '#FEF2F2'
                     price_icon = '↘'
                 else:
-                    price_color = '#6B7280'
-                    price_bg = '#F9FAFB'
-                    price_icon = '→'
+                    price_color = '#10B981'
+                    price_bg = '#ECFDF5'
+                    price_icon = '↗'
                 
                 row_bg = '#FFFFFF' if idx % 2 == 0 else '#F9FAFB'
                 
@@ -152,16 +152,34 @@ def lambda_handler(event, context):
             for line in [l.strip() for l in suggestions_str.splitlines() if l.strip()]:
                 if line.lower().startswith("opportunity"):
                     opportunity_html += f"""
-                    <div style='background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; align-items: flex-start;'>
-                        <div style='width: 24px; height: 24px; background: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; margin-top: 2px;'>
-                            <div style='color: #fff; font-size: 12px; font-weight: bold;'>+</div>
+                    <div style='background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 16px; margin-bottom: 12px;'>
+                        <div style='display: table; width: 100%;'>
+                            <div style='display: table-cell; vertical-align: top; width: 36px;'>
+                                <div style='width: 24px; height: 24px; background: #10B981; border-radius: 50%; text-align: center; line-height: 24px; margin-top: 2px;'>
+                                    <span style='color: #fff; font-size: 12px; font-weight: bold;'>+</span>
+                                </div>
+                            </div>
+                            <div style='display: table-cell; vertical-align: top;'>
+                                <div style='color: #15803D; font-size: 15px; line-height: 1.5;'>{html.escape(line)}</div>
+                            </div>
                         </div>
-                        <div style='color: #15803D; font-size: 15px; line-height: 1.5;'>{html.escape(line)}</div>
                     </div>
                     """
                 elif line.lower().startswith("risk"):
                     risk_html += f"""
-                    <div style='background: #FEF2F2; border: 1px solid #FECACA; border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; align-items: flex-start;'>
+                    <div style='background: #FEF2F2; border: 1px solid #FECACA; border-radius: 12px; padding: 16px; margin-bottom: 12px;'>
+                        <div style='display: table; width: 100%;'>
+                            <div style='display: table-cell; vertical-align: top; width: 36px;'>
+                                <div style='width: 24px; height: 24px; background: #EF4444; border-radius: 50%; text-align: center; line-height: 24px; margin-top: 2px;'>
+                                    <span style='color: #fff; font-size: 12px; font-weight: bold;'>!</span>
+                                </div>
+                            </div>
+                            <div style='display: table-cell; vertical-align: top;'>
+                                <div style='color: #B91C1C; font-size: 15px; line-height: 1.5;'>{html.escape(line)}</div>
+                            </div>
+                        </div>
+                    </div>
+                    """    <div style='background: #FEF2F2; border: 1px solid #FECACA; border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; align-items: flex-start;'>
                         <div style='width: 24px; height: 24px; background: #EF4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; margin-top: 2px;'>
                             <div style='color: #fff; font-size: 12px; font-weight: bold;'>!</div>
                         </div>
@@ -279,6 +297,15 @@ def lambda_handler(event, context):
                     align-items: center;
                     padding: 8px 0;
                     border-bottom: 1px solid #F3F4F6;
+                    flex-wrap: wrap;
+                }}
+                
+                @media screen and (max-width: 600px) {{
+                    .metadata-item {{
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 8px;
+                    }}
                 }}
                 
                 .metadata-item:last-child {{
@@ -304,7 +331,7 @@ def lambda_handler(event, context):
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>📊 Daily Market Report</h1>
+                    <h1>Daily Market Report</h1>
                     <p style="color: #6B7280; font-size: 16px; margin: 0;">Comprehensive market analysis and insights</p>
                 </div>
                 
@@ -328,7 +355,7 @@ def lambda_handler(event, context):
         </html>
         """
 
-        subject = f"📊 Daily Market Report - {file_key}"
+        subject = f"Daily Market Report - {file_key}"
 
         response = ses.send_email(
             Source=email_from,
