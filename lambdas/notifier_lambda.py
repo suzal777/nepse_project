@@ -331,7 +331,7 @@ def lambda_handler(event, context):
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>Daily Market Report</h1>
+                    <h1>📊 Daily Market Report</h1>
                     <p style="color: #6B7280; font-size: 16px; margin: 0;">Comprehensive market analysis and insights</p>
                 </div>
                 
