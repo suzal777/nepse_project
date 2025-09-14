@@ -71,7 +71,7 @@ resource "aws_iam_role_policy_attachment" "lambda_s3" {
 resource "aws_lambda_function" "scraper" {
   function_name    = "nepse_scraper_lambda"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "nepse_scraper_lambda.lambda_handler"
+  handler          = "scraper_lambda.lambda_handler"
   runtime          = "python3.10"
   timeout          = 30
   memory_size      = 256
@@ -95,7 +95,7 @@ resource "aws_lambda_function" "scraper" {
 resource "aws_lambda_function" "processor" {
   function_name    = "nepse_processor_lambda"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "nepse_processor_lambda.lambda_handler"
+  handler          = "processor_lambda.lambda_handler"
   runtime          = "python3.10"
   timeout          = 30
   memory_size      = 256
@@ -212,7 +212,7 @@ resource "aws_iam_role_policy_attachment" "llm_lambda_eventbridge" {
 resource "aws_lambda_function" "llm_analysis" {
   function_name    = "nepse_llm_analysis_lambda"
   role             = aws_iam_role.llm_lambda_role.arn
-  handler          = "nepse_llm_analysis_lambda.lambda_handler"
+  handler          = "llm_analysis_lambda.lambda_handler"
   runtime          = "python3.10"
   timeout          = 60
   memory_size      = 512
@@ -314,7 +314,7 @@ resource "aws_iam_role_policy_attachment" "notifier_lambda_basic" {
 resource "aws_lambda_function" "notifier_lambda" {
   function_name    = "nepse_notifier_lambda"
   role             = aws_iam_role.notifier_lambda_role.arn
-  handler          = "nepse_notifier_lambda.lambda_handler"
+  handler          = "notifier_lambda.lambda_handler"
   runtime          = "python3.11"
   timeout          = 20
   memory_size      = 256
