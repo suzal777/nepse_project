@@ -21,7 +21,7 @@ variable "target_url" {
 
 variable "ses_email_from" {
   type = string
-  default = "sujalphaiju777@gmail.com"
+  default = "sujalphaiju@lftechnology.com"
 }
 
 variable "ses_email_to" {

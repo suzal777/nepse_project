@@ -19,7 +19,7 @@ NOTIFIER_ZIP = $(BUILD_DIR)/notifier_lambda.zip
 all: $(SCRAPER_ZIP) $(PROCESSOR_ZIP) $(LLM_ZIP) $(NOTIFIER_ZIP)
 	@echo "All Lambdas packaged!"
 
-# --- Conditional packaging for Lambdas with dependencies ---
+# --- Scraper Lambda (with dependencies) ---
 $(SCRAPER_ZIP): $(SCRAPER_SRC) $(REQUIREMENTS)
 	@echo "Packaging scraper Lambda..."
 	@mkdir -p $(BUILD_DIR)/temp_scraper
@@ -30,26 +30,27 @@ $(SCRAPER_ZIP): $(SCRAPER_SRC) $(REQUIREMENTS)
 	rm -rf $(BUILD_DIR)/temp_scraper
 	@echo "$(SCRAPER_ZIP) created!"
 
-$(PROCESSOR_ZIP): $(PROCESSOR_SRC) $(REQUIREMENTS)
+# --- Processor Lambda (no extra dependencies) ---
+$(PROCESSOR_ZIP): $(PROCESSOR_SRC)
 	@echo "Packaging processor Lambda..."
 	@mkdir -p $(BUILD_DIR)/temp_processor
 	@rm -f $(PROCESSOR_ZIP)
-	pip install --target $(BUILD_DIR)/temp_processor -r $(REQUIREMENTS)
 	cp $(PROCESSOR_SRC) $(BUILD_DIR)/temp_processor/
 	cd $(BUILD_DIR)/temp_processor && zip -r ../processor_lambda.zip *
 	rm -rf $(BUILD_DIR)/temp_processor
 	@echo "$(PROCESSOR_ZIP) created!"
 
+# --- LLM Analysis Lambda (no extra dependencies) ---
 $(LLM_ZIP): $(LLM_SRC)
 	@echo "Packaging llm_analysis Lambda..."
 	@mkdir -p $(BUILD_DIR)/temp_llm_analysis
 	@rm -f $(LLM_ZIP)
-	pip install --target $(BUILD_DIR)/temp_llm_analysis requests
 	cp $(LLM_SRC) $(BUILD_DIR)/temp_llm_analysis/
 	cd $(BUILD_DIR)/temp_llm_analysis && zip -r ../llm_analysis_lambda.zip *
 	rm -rf $(BUILD_DIR)/temp_llm_analysis
 	@echo "$(LLM_ZIP) created!"
 
+# --- Notifier Lambda (no extra dependencies) ---
 $(NOTIFIER_ZIP): $(NOTIFIER_SRC)
 	@echo "Packaging notifier Lambda..."
 	@mkdir -p $(BUILD_DIR)/temp_notifier
