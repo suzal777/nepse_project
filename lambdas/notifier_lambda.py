@@ -1,4 +1,78 @@
-import boto3
+# ---- Compact Responsive HTML Body ----
+        html_body = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Daily Market Report</title>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+                
+                * {{
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }}
+                
+                body {{
+                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    line-height: 1.4;
+                    color: #1F2937;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    min-height: 100vh;
+                    padding: 10px;
+                    font-size: 12px;
+                }}
+                
+                @media (min-width: 768px) {{
+                    body {{
+                        padding: 15px;
+                    }}
+                }}
+                
+                .container {{
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    background: #F8FAFC;
+                    border-radius: 12px;
+                    padding: 15px;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+                }}
+                
+                @media (min-width: 768px) {{
+                    .container {{
+                        padding: 20px;
+                    }}
+                }}
+                
+                .header {{
+                    text-align: center;
+                    margin-bottom: 15px;
+                    padding-bottom: 10px;
+                    border-bottom: 1px solid #E5E7EB;
+                }}
+                
+                .header h1 {{
+                    font-size: 20px;
+                    font-weight: 700;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    margin-bottom: 4px;
+                    letter-spacing: -0.5px;
+                }}
+                
+                @media (min-width: 768px) {{
+                    .header h1 {{
+                        font-size: 24px;
+                    }}
+                }}
+                
+                .metadata {{
+                    background: #fff;
+                    border-import boto3
 import os
 import html
 
