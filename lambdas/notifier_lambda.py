@@ -24,22 +24,25 @@ def lambda_handler(event, context):
         processed_count = event['detail'].get('processed_count', 'N/A')
         rejected_count = event['detail'].get('rejected_count', 'N/A')
 
-        # ---- Processing Summary Card ----
+       # ---- Modern Row Counts Card ----
         html_counts = f"""
         <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius:16px; padding:24px; margin-bottom:24px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;'>
-            <h2 style='color: #fff; font-size: 20px; font-weight: 600; margin: 0 0 20px 0; letter-spacing: -0.5px;'>Processing Summary</h2>
-            <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px;'>
-                <div style='background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,0.2);'>
-                    <div style='color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;'>Raw Data</div>
-                    <div style='color: #fff; font-size: 24px; font-weight: 700;'>{raw_count}</div>
+            <div style='display: flex; align-items: center; margin-bottom: 20px;'>
+                <div style='width: 12px; height: 12px; background: #fff; border-radius: 50%; margin-right: 12px; opacity: 0.9;'></div>
+                <h2 style='color: #fff; font-size: 20px; font-weight: 600; margin: 0; letter-spacing: -0.5px;'>Processing Summary</h2>
+            </div>
+            <div style="display: flex; flex-wrap: wrap;">
+                <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 12px; padding: 16px; flex: 1; min-width: 120px; border: 1px solid rgba(255,255,255,0.2); margin-right: 16px;">
+                    <div style="color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Raw Data</div>
+                    <div style="color: #fff; font-size: 24px; font-weight: 700;">{raw_count}</div>
                 </div>
-                <div style='background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,0.2);'>
-                    <div style='color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;'>Processed</div>
-                    <div style='color: #fff; font-size: 24px; font-weight: 700;'>{processed_count}</div>
+                <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 12px; padding: 16px; flex: 1; min-width: 120px; border: 1px solid rgba(255,255,255,0.2); margin-right: 16px;">
+                    <div style="color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Processed</div>
+                    <div style="color: #fff; font-size: 24px; font-weight: 700;">{processed_count}</div>
                 </div>
-                <div style='background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,0.2);'>
-                    <div style='color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;'>Rejected</div>
-                    <div style='color: #fff; font-size: 24px; font-weight: 700;'>{rejected_count}</div>
+                <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 12px; padding: 16px; flex: 1; min-width: 120px; border: 1px solid rgba(255,255,255,0.2);">
+                    <div style="color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Rejected</div>
+                    <div style="color: #fff; font-size: 24px; font-weight: 700;">{rejected_count}</div>
                 </div>
             </div>
         </div>
@@ -258,12 +261,27 @@ def lambda_handler(event, context):
                     border: 1px solid rgba(0,0,0,0.05);
                 }}
                 
+                @media (min-width: 768px) {{
+                    .metadata {{
+                        padding: 20px;
+                    }}
+                }}
+                
                 .metadata-item {{
                     display: flex;
                     flex-direction: column;
                     gap: 8px;
                     padding: 8px 0;
                     border-bottom: 1px solid #F3F4F6;
+                }}
+                
+                @media (min-width: 768px) {{
+                    .metadata-item {{
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 0;
+                    }}
                 }}
                 
                 .metadata-item:last-child {{
@@ -286,6 +304,12 @@ def lambda_handler(event, context):
                     word-break: break-all;
                 }}
                 
+                @media (min-width: 768px) {{
+                    .metadata-value {{
+                        word-break: normal;
+                    }}
+                }}
+                
                 /* Mobile-friendly table styles */
                 @media (max-width: 767px) {{
                     table {{
@@ -293,28 +317,11 @@ def lambda_handler(event, context):
                     }}
                     
                     th, td {{
-                        padding: 12px 10px !important;
+                        padding: 12px 8px !important;
                     }}
                     
-                    td span {{
-                        font-size: 13px !important;
-                        padding: 4px 8px !important;
-                    }}
-                }}
-                
-                .footer {{
-                    text-align: center;
-                    margin-top: 30px;
-                    padding-top: 20px;
-                    border-top: 1px solid #E5E7EB;
-                    font-size: 14px;
-                    color: #6B7280;
-                }}
-                
-                @media (min-width: 768px) {{
-                    .footer {{
-                        margin-top: 40px;
-                        padding-top: 30px;
+                    .metadata-value {{
+                        font-size: 12px;
                     }}
                 }}
             </style>
@@ -323,48 +330,43 @@ def lambda_handler(event, context):
             <div class="container">
                 <div class="header">
                     <h1>Daily Market Report</h1>
+                    <p style="color: #6B7280; font-size: 14px; margin: 0;">Comprehensive market analysis and insights</p>
                 </div>
-
+                
                 <div class="metadata">
                     <div class="metadata-item">
-                        <div class="metadata-label">File Key</div>
-                        <div class="metadata-value">{html.escape(file_key)}</div>
+                        <span class="metadata-label">File Reference</span>
+                        <span class="metadata-value">{html.escape(file_key)}</span>
                     </div>
                     <div class="metadata-item">
-                        <div class="metadata-label">Correlation ID</div>
-                        <div class="metadata-value">{html.escape(correlation_id)}</div>
+                        <span class="metadata-label">Correlation ID</span>
+                        <span class="metadata-value">{html.escape(correlation_id)}</span>
                     </div>
                 </div>
-
+                
                 {html_counts}
                 {html_market_summary}
                 {html_anomalies}
                 {suggestions_html}
-
-                <div class="footer">
-                    <p>Confidential - For Internal Use Only</p>
-                    <p style="margin-top: 8px; font-size: 13px;">Generated automatically by Market Analysis System</p>
-                </div>
             </div>
         </body>
         </html>
         """
 
-        # ---- Send Email ----
-        ses.send_email(
+        subject = f"Daily Market Report - {file_key}"
+
+        response = ses.send_email(
             Source=email_from,
             Destination={"ToAddresses": [email_to]},
             Message={
-                "Subject": {"Data": "Daily Market Report"},
-                "Body": {
-                    "Html": {"Data": html_body},
-                    "Text": {"Data": f"File Key: {file_key}\nCorrelation ID: {correlation_id}"}
-                },
-            },
+                "Subject": {"Data": subject},
+                "Body": {"Html": {"Data": html_body}}
+            }
         )
 
-        return {"statusCode": 200, "body": "Email sent successfully"}
+        print("SES Response:", response)
+        return {"status": "success", "message_id": response["MessageId"]}
 
     except Exception as e:
-        print(f"Error: {str(e)}")
-        return {"statusCode": 500, "body": str(e)}
+        print("Error sending SES email:", str(e))
+        return {"status": "error", "message": str(e)}
