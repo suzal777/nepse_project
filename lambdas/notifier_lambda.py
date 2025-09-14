@@ -131,7 +131,7 @@ def lambda_handler(event, context):
         html_body = f"""
         <html>
         <body style="font-family: 'Segoe UI', Arial, sans-serif; line-height:1.6; color:#333; padding:20px;">
-            <h1 style="color:#34495E; text-align:left; font-size:26px; margin-bottom:30px;">Daily Market Report</h1>
+            <h1 style="color:#34495E; text-align:left; font-size:32px; margin-bottom:30px;">Daily Market Report</h1>
             <div style='margin-bottom:20px;'>
                 <p style='font-size:16px; margin:2px 0;'><strong>File Key:</strong> {html.escape(file_key)}</p>
                 <p style='font-size:16px; margin:2px 0;'><strong>Correlation ID:</strong> {html.escape(correlation_id)}</p>
