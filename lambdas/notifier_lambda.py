@@ -59,12 +59,12 @@ def lambda_handler(event, context):
         </div>
         """
 
-        # ---- Anomalies Card ----
+        # ---- Modern Anomalies Card ----
         if anomalies_str:
             anomaly_lines = [line.strip() for line in anomalies_str.splitlines() if line.strip()]
             anomalies_html = """
             <div style='overflow-x: auto;'>
-                <table style='border-collapse: collapse; width: 100%; min-width: 600px; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);'>
+                <table style='border-collapse: collapse; width: 100%; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);'>
                     <thead>
                         <tr style='background: linear-gradient(135deg, #F59E0B, #F97316);'>
                             <th style='padding: 16px 20px; text-align: left; color: #fff; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;'>Symbol</th>
@@ -83,22 +83,25 @@ def lambda_handler(event, context):
                 if price_change.startswith('+'):
                     price_color = '#10B981'
                     price_bg = '#ECFDF5'
+                    price_icon = '↗'
                 elif price_change.startswith('-'):
                     price_color = '#EF4444'
                     price_bg = '#FEF2F2'
+                    price_icon = '↘'
                 else:
                     price_color = '#10B981'
                     price_bg = '#ECFDF5'
+                    price_icon = '↗'
                 
                 row_bg = '#FFFFFF' if idx % 2 == 0 else '#F9FAFB'
                 
                 anomalies_html += f"""
-                    <tr style='background: {row_bg};'>
+                    <tr style='background: {row_bg}; transition: background-color 0.2s ease;' onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='{row_bg}'">
                         <td style='padding: 16px 20px; border-bottom: 1px solid #E5E7EB; font-weight: 600; color: #1F2937;'>{html.escape(parts.get('Symbol',''))}</td>
                         <td style='padding: 16px 20px; border-bottom: 1px solid #E5E7EB; color: #4B5563; font-family: monospace;'>{html.escape(parts.get('Turnover',''))}</td>
                         <td style='padding: 16px 20px; border-bottom: 1px solid #E5E7EB;'>
                             <span style='background: {price_bg}; color: {price_color}; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 14px; font-family: monospace;'>
-                                {html.escape(price_change)}
+                                {price_icon} {html.escape(price_change)}
                             </span>
                         </td>
                         <td style='padding: 16px 20px; border-bottom: 1px solid #E5E7EB; color: #4B5563;'>{html.escape(parts.get('Reason',''))}</td>
@@ -113,14 +116,18 @@ def lambda_handler(event, context):
             
             html_anomalies = f"""
             <div style='background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;'>
-                <h2 style='color: #1F2937; font-size: 24px; font-weight: 700; margin: 0 0 24px 0; letter-spacing: -0.5px;'>Market Anomalies</h2>
+                <div style='display: flex; align-items: center; margin-bottom: 24px;'>
+                    <h2 style='color: #1F2937; font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -0.5px;'>Market Anomalies</h2>
+                </div>
                 {anomalies_html}
             </div>
             """
         else:
             html_anomalies = """
             <div style='background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;'>
-                <h2 style='color: #1F2937; font-size: 24px; font-weight: 700; margin: 0 0 20px 0; letter-spacing: -0.5px;'>Market Anomalies</h2>
+                <div style='display: flex; align-items: center; margin-bottom: 20px;'>
+                    <h2 style='color: #1F2937; font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -0.5px;'>Market Anomalies</h2>
+                </div>
                 <div style='background: #F0FDF4; padding: 20px; border-radius: 12px; border-left: 4px solid #10B981; color: #15803D; font-size: 16px; text-align: center;'>
                     No anomalies detected - Market operating normally
                 </div>
