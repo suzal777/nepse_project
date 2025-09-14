@@ -54,7 +54,6 @@ jobs:
           base: dev
           title: "Gitback Sync: uat -> dev"
           body: "Automated PR to sync changes from uat to dev."
-          merge-method: squash
           delete-branch: false
 
       # Step 6: Auto-merge if no conflicts
