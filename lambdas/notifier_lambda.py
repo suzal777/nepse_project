@@ -24,24 +24,31 @@ def lambda_handler(event, context):
         processed_count = event['detail'].get('processed_count', 'N/A')
         rejected_count = event['detail'].get('rejected_count', 'N/A')
 
-        # ---- Market Summary ----
-        market_summary_html = html.escape(market_summary).replace("\n", "<br>") if market_summary else "No market summary available."
-        html_market_summary = f"<h2 style='color:#2E86C1;'>Market Summary</h2><p>{market_summary_html}</p>"
-
-        # ---- Row Counts ----
+        # ---- Row Counts Card ----
         html_counts = f"""
-        <h2 style='color:#34495E;'>Row Counts</h2>
-        <ul>
-            <li>Raw Rows: {raw_count}</li>
-            <li>Processed Rows: {processed_count}</li>
-            <li>Rejected Rows: {rejected_count}</li>
-        </ul>
+        <div style='border:1px solid #3498DB; background:#EBF5FB; border-radius:5px; padding:10px; width:300px; display:inline-block; vertical-align:top; margin-right:10px;'>
+            <h3 style='color:#2E86C1; margin-top:0;'>Row Counts</h3>
+            <ul style='padding-left:15px;'>
+                <li>Raw Rows: {raw_count}</li>
+                <li>Processed Rows: {processed_count}</li>
+                <li>Rejected Rows: {rejected_count}</li>
+            </ul>
+        </div>
         """
 
-        # ---- Anomalies ----
+        # ---- Market Summary Card ----
+        market_summary_html = html.escape(market_summary).replace("\n", "<br>") if market_summary else "No market summary available."
+        html_market_summary = f"""
+        <div style='border:1px solid #2E86C1; background:#D6EAF8; border-radius:5px; padding:10px; width:600px; display:inline-block; vertical-align:top;'>
+            <h3 style='color:#2E86C1; margin-top:0;'>Market Summary</h3>
+            <p>{market_summary_html}</p>
+        </div>
+        """
+
+        # ---- Anomalies Card ----
         if anomalies_str:
             anomaly_lines = [line.strip() for line in anomalies_str.splitlines() if line.strip()]
-            anomalies_html = "<table style='border-collapse: collapse; width:100%; margin-bottom:15px;'>"
+            anomalies_html = "<table style='border-collapse: collapse; width:100%; margin-bottom:10px;'>"
             anomalies_html += """
             <tr>
                 <th style='border:1px solid #ddd; padding:5px; text-align:left;'>Symbol</th>
@@ -53,14 +60,8 @@ def lambda_handler(event, context):
             for line in anomaly_lines:
                 parts = dict(part.strip().split(":", 1) for part in line.split(",") if ":" in part)
                 
-                # Price Change color
-                price_change = parts.get('Price Change', '')
-                if price_change.startswith('+'):
-                    price_color = 'green'
-                elif price_change.startswith('-'):
-                    price_color = 'red'
-                else:
-                    price_color = 'black'
+                price_change = parts.get('Price Change', '').strip()
+                price_color = 'green' if price_change.startswith('+') else 'red' if price_change.startswith('-') else 'black'
 
                 anomalies_html += f"""
                 <tr>
@@ -72,40 +73,53 @@ def lambda_handler(event, context):
                 """
             anomalies_html += "</table>"
             html_anomalies = f"""
-            <div style='border:1px solid #F1C40F; padding:10px; border-radius:5px; background:#FEF9E7; margin-bottom:15px;'>
-                <h2 style='color:#B9770E;'>Anomalies</h2>
+            <div style='border:1px solid #F1C40F; padding:10px; border-radius:5px; background:#FEF9E7; margin-top:15px;'>
+                <h2 style='color:#B9770E; margin-top:0;'>Anomalies</h2>
                 {anomalies_html}
             </div>
             """
         else:
             html_anomalies = """
-            <div style='border:1px solid #F1C40F; padding:10px; border-radius:5px; background:#FEF9E7; margin-bottom:15px;'>
-                <h2 style='color:#B9770E;'>Anomalies</h2>
+            <div style='border:1px solid #F1C40F; padding:10px; border-radius:5px; background:#FEF9E7; margin-top:15px;'>
+                <h2 style='color:#B9770E; margin-top:0;'>Anomalies</h2>
                 <p>No anomalies detected.</p>
             </div>
             """
 
-        # ---- Suggestions ----
+        # ---- Suggestions Cards ----
+        opportunity_html = ""
+        risk_html = ""
         if suggestions_str:
-            suggestion_lines = [line.strip() for line in suggestions_str.splitlines() if line.strip()]
-            suggestions_html = "<ul>"
-            for line in suggestion_lines:
-                color = 'green' if line.lower().startswith('opportunity') else 'red' if line.lower().startswith('risk') else 'black'
-                suggestions_html += f"<li style='color:{color};'>{html.escape(line)}</li>"
-            suggestions_html += "</ul>"
-            html_suggestions = f"""
-            <div style='border:1px solid #27AE60; padding:10px; border-radius:5px; background:#F9F9F9; margin-bottom:15px;'>
-                <h2 style='color:#27AE60;'>Suggestions</h2>
-                {suggestions_html}
+            for line in [l.strip() for l in suggestions_str.splitlines() if l.strip()]:
+                if line.lower().startswith("opportunity"):
+                    opportunity_html += f"<li>{html.escape(line)}</li>"
+                elif line.lower().startswith("risk"):
+                    risk_html += f"<li>{html.escape(line)}</li>"
+
+        if opportunity_html:
+            opportunity_html = f"""
+            <div style='border:1px solid #27AE60; background:#E8F8F5; border-radius:5px; padding:10px; margin-top:15px;'>
+                <h3 style='color:#27AE60; margin-top:0;'>Opportunities</h3>
+                <ul style='padding-left:15px;'>{opportunity_html}</ul>
             </div>
             """
-        else:
-            html_suggestions = """
-            <div style='border:1px solid #27AE60; padding:10px; border-radius:5px; background:#F9F9F9; margin-bottom:15px;'>
-                <h2 style='color:#27AE60;'>Suggestions</h2>
+        if risk_html:
+            risk_html = f"""
+            <div style='border:1px solid #C0392B; background:#FDEDEC; border-radius:5px; padding:10px; margin-top:15px;'>
+                <h3 style='color:#C0392B; margin-top:0;'>Risks</h3>
+                <ul style='padding-left:15px;'>{risk_html}</ul>
+            </div>
+            """
+
+        if not opportunity_html and not risk_html:
+            suggestions_html = """
+            <div style='border:1px solid #27AE60; padding:10px; border-radius:5px; background:#F9F9F9; margin-top:15px;'>
+                <h2 style='color:#27AE60; margin-top:0;'>Suggestions</h2>
                 <p>No suggestions available.</p>
             </div>
             """
+        else:
+            suggestions_html = opportunity_html + risk_html
 
         # ---- Final HTML Body ----
         html_body = f"""
@@ -114,10 +128,12 @@ def lambda_handler(event, context):
             <h1 style="color:#34495E;">Daily Market Report</h1>
             <p><strong>File Key:</strong> {html.escape(file_key)}</p>
             <p><strong>Correlation ID:</strong> {html.escape(correlation_id)}</p>
-            {html_counts}
-            {html_market_summary}
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                {html_counts}
+                {html_market_summary}
+            </div>
             {html_anomalies}
-            {html_suggestions}
+            {suggestions_html}
         </body>
         </html>
         """
