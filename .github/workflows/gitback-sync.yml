@@ -1,6 +1,5 @@
 name: Gitback Sync UAT -> Dev
 
-# Trigger workflow only on push to uat
 on:
   push:
     branches:
@@ -28,30 +27,32 @@ jobs:
       # Step 3: Create or update persistent sync branch
       - name: Prepare uat-sync branch
         run: |
-          git fetch origin dev
-          git fetch origin uat
-          # Checkout existing uat-sync or create from dev
-          if git show-ref --verify --quiet refs/heads/uat-sync; then
+          git fetch origin
+          # If uat-sync exists, check it out, otherwise create from dev
+          if git ls-remote --exit-code --heads origin uat-sync; then
             git checkout uat-sync
+            git pull origin uat-sync
           else
             git checkout -b uat-sync origin/dev
           fi
-          # Merge uat changes
+          # Merge latest uat into uat-sync
           git merge origin/uat --no-ff -m "Sync hotfix from uat to dev"
 
-      # Step 4: Push uat-sync branch
+      # Step 4: Push uat-sync branch (force to avoid non-fast-forward issues)
       - name: Push uat-sync branch
         run: |
-          git push origin uat-sync
+          git push origin uat-sync --force
 
       # Step 5: Create PR using GitHub CLI
       - name: Create PR to dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          gh auth login --with-token <<< "${{ secrets.PAT_TOKEN }}"
+          gh auth login --with-token <<< "${GITHUB_TOKEN}"
           # Check if PR already exists
           PR_EXISTS=$(gh pr list --base dev --head uat-sync --json number --jq '.[].number')
           if [ -z "$PR_EXISTS" ]; then
-            gh pr create --base dev --head uat-sync --title "Gitback Sync: uat -> dev" --body "Automated PR to sync changes from uat to dev." --draft=false
+            gh pr create --base dev --head uat-sync --title "Gitback Sync: uat -> dev" --body "Automated PR to sync changes from uat to dev."
           else
             echo "PR already exists: #$PR_EXISTS"
           fi
