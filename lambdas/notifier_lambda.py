@@ -149,4 +149,17 @@ def lambda_handler(event, context):
         subject = f"Daily Market Report - {file_key}"
 
         response = ses.send_email(
-            Source
+            Source=email_from,
+            Destination={"ToAddresses": [email_to]},
+            Message={
+                "Subject": {"Data": subject},
+                "Body": {"Html": {"Data": html_body}}
+            }
+        )
+
+        print("SES Response:", response)
+        return {"status": "success", "message_id": response["MessageId"]}
+
+    except Exception as e:
+        print("Error sending SES email:", str(e))
+        return {"status": "error", "message": str(e)}
