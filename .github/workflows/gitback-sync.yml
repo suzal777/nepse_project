@@ -59,11 +59,11 @@ jobs:
 
       # Step 6: Auto-merge if no conflicts
       - name: Auto-merge PR
-        if: steps.create-pr.outputs.pull-request-url != ''
+        if: steps.create-pr.outputs.pr_url != ''
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          PR_NUMBER=$(gh pr view "${{ steps.create-pr.outputs.pull-request-url }}" --json number --jq '.number')
+          PR_NUMBER=$(gh pr view "${{ steps.create-pr.outputs.pr_url }}" --json number --jq '.number')
           MERGEABLE=$(gh pr view $PR_NUMBER --json mergeable --jq '.mergeable')
           if [ "$MERGEABLE" = "true" ]; then
             echo "PR #$PR_NUMBER is mergeable. Merging..."
