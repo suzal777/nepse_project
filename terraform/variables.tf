@@ -31,5 +31,5 @@ variable "ses_email_to" {
 
 variable "lambda_names" {
   type    = list(string)
-  default = ["scraper_lambda", "processor_lambda", "llm_analysis_lambda", "notifier-lambda"]
+  default = ["scraper_lambda", "processor_lambda", "llm_analysis_lambda", "notifier_lambda"]
 }

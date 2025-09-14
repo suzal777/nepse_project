@@ -69,9 +69,9 @@ resource "aws_iam_role_policy_attachment" "lambda_s3" {
 
 # --- Scraper Lambda ---
 resource "aws_lambda_function" "scraper" {
-  function_name    = "scraper_lambda"
+  function_name    = "nepse_scraper_lambda"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "scraper_lambda.lambda_handler"
+  handler          = "nepse_scraper_lambda.lambda_handler"
   runtime          = "python3.10"
   timeout          = 30
   memory_size      = 256
@@ -93,9 +93,9 @@ resource "aws_lambda_function" "scraper" {
 
 # --- Processor Lambda ---
 resource "aws_lambda_function" "processor" {
-  function_name    = "processor_lambda"
+  function_name    = "nepse_processor_lambda"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "processor_lambda.lambda_handler"
+  handler          = "nepse_processor_lambda.lambda_handler"
   runtime          = "python3.10"
   timeout          = 30
   memory_size      = 256
@@ -116,13 +116,13 @@ resource "aws_lambda_function" "processor" {
 
 # --- EventBridge Rule (daily scrape trigger) ---
 resource "aws_cloudwatch_event_rule" "daily_scraper" {
-  name                = "daily-scraper-rule"
+  name                = "daily-nepse-scraper-rule"
   schedule_expression = var.scraper_schedule
 }
 
 resource "aws_cloudwatch_event_target" "scraper_target" {
   rule      = aws_cloudwatch_event_rule.daily_scraper.name
-  target_id = "scraper_lambda"
+  target_id = "nepse_scraper_lambda"
   arn       = aws_lambda_function.scraper.arn
 }
 
@@ -136,7 +136,7 @@ resource "aws_lambda_permission" "allow_eventbridge_scraper" {
 
 # --- DynamoDB Table ---
 resource "aws_dynamodb_table" "llm_analysis" {
-  name         = "LLMAnalysis"
+  name         = "Nepse-LLM-Analysis"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "file_key"
 
@@ -153,7 +153,7 @@ resource "aws_dynamodb_table" "llm_analysis" {
 
 # --- IAM Role for LLM Lambda ---
 resource "aws_iam_role" "llm_lambda_role" {
-  name = "llm_lambda_role"
+  name = "nepse_llm_lambda_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -188,7 +188,7 @@ resource "aws_iam_role_policy_attachment" "llm_lambda_bedrock" {
 
 # --- EventBridge PutEvents Policy for LLM Lambda ---
 resource "aws_iam_policy" "llm_eventbridge_putevents" {
-  name        = "LLM_EventBridge_PutEvents"
+  name        = "Nepse_LLM_EventBridge_PutEvents"
   description = "Allows LLM Lambda to put events to EventBridge"
 
   policy = jsonencode({
@@ -210,9 +210,9 @@ resource "aws_iam_role_policy_attachment" "llm_lambda_eventbridge" {
 
 # --- LLM Lambda Function ---
 resource "aws_lambda_function" "llm_analysis" {
-  function_name    = "llm_analysis_lambda"
+  function_name    = "nepse_llm_analysis_lambda"
   role             = aws_iam_role.llm_lambda_role.arn
-  handler          = "llm_analysis_lambda.lambda_handler"
+  handler          = "nepse_llm_analysis_lambda.lambda_handler"
   runtime          = "python3.10"
   timeout          = 60
   memory_size      = 512
@@ -275,7 +275,7 @@ resource "aws_s3_bucket_notification" "bucket_notifications" {
 
 # ---------- EventBridge Rule ----------
 resource "aws_cloudwatch_event_rule" "anomaly_detected_rule" {
-  name           = "anomaly-detected-rule"
+  name           = "nepse-anomaly-detected-rule"
   description    = "Triggers notifier Lambda when anomaly is detected"
   event_bus_name = "default"
 
@@ -287,7 +287,7 @@ resource "aws_cloudwatch_event_rule" "anomaly_detected_rule" {
 
 # ---------- Notifier Lambda Role ----------
 resource "aws_iam_role" "notifier_lambda_role" {
-  name = "notifier-lambda-role"
+  name = "nepse_notifier_lambda_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -312,9 +312,9 @@ resource "aws_iam_role_policy_attachment" "notifier_lambda_basic" {
 
 # ---------- Notifier Lambda ----------
 resource "aws_lambda_function" "notifier_lambda" {
-  function_name    = "notifier-lambda"
+  function_name    = "nepse_notifier_lambda"
   role             = aws_iam_role.notifier_lambda_role.arn
-  handler          = "notifier_lambda.lambda_handler"
+  handler          = "nepse_notifier_lambda.lambda_handler"
   runtime          = "python3.11"
   timeout          = 20
   memory_size      = 256
@@ -337,7 +337,7 @@ resource "aws_lambda_function" "notifier_lambda" {
 # ---------- EventBridge Target ----------
 resource "aws_cloudwatch_event_target" "notifier_target" {
   rule           = aws_cloudwatch_event_rule.anomaly_detected_rule.name
-  target_id      = "notifier_lambda"
+  target_id      = "nepse_notifier_lambda"
   arn            = aws_lambda_function.notifier_lambda.arn
   event_bus_name = "default"
 }
@@ -353,7 +353,7 @@ resource "aws_lambda_permission" "allow_eventbridge_notifier" {
 
 # SNS Topic for alerts
 resource "aws_sns_topic" "alerts" {
-  name = "lambda-error-alerts"
+  name = "nepse-lambda-error-alerts"
 }
 
 # Subscribe your email
@@ -366,7 +366,7 @@ resource "aws_sns_topic_subscription" "alerts_email" {
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
   for_each = toset(var.lambda_names)
 
-  alarm_name          = "lambda-${each.key}-error-alarm"
+  alarm_name          = "nepse-${each.key}-error-alarm"
   alarm_description   = "Alarm when ${each.key} Lambda has errors > 0"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
