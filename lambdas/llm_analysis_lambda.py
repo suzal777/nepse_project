@@ -76,7 +76,7 @@ Perform structured analysis with these sections only:
 
 Return as plain text, starting each section with its heading in uppercase.
 
-Example output format:
+Example output format (Return output in same structure):
 
 MARKET SUMMARY
 Today's market showed a mixture of strength and weakness. 

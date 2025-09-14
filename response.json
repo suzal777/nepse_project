@@ -1,1 +1,1 @@
-{"errorMessage": "Unable to import module 'nepse_scraper_lambda': No module named 'nepse_scraper_lambda'", "errorType": "Runtime.ImportModuleError", "requestId": "", "stackTrace": []}
+{"status": "success", "file": "raw/2025-09-14/data_20250914T063058.json", "records": 320, "correlation_id": "248ab303-c9f1-4b89-8ba0-f70e85f52202"}
