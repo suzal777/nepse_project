@@ -193,7 +193,7 @@ def lambda_handler(event, context):
             <div style='background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;'>
                 <div style='display: flex; align-items: center; margin-bottom: 24px;'>
                     <div style='width: 40px; height: 40px; background: linear-gradient(135deg, #10B981, #059669); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 16px;'>
-                        <div style='color: #fff; font-size: 18px;'>🚀</div>
+                        <div style='color: #fff; font-size: 18px;'>↗</div>
                     </div>
                     <h2 style='color: #1F2937; font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -0.5px;'>Opportunities</h2>
                 </div>
@@ -206,7 +206,7 @@ def lambda_handler(event, context):
             <div style='background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;'>
                 <div style='display: flex; align-items: center; margin-bottom: 24px;'>
                     <div style='width: 40px; height: 40px; background: linear-gradient(135deg, #EF4444, #DC2626); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 16px;'>
-                        <div style='color: #fff; font-size: 18px;'>⚠️</div>
+                        <div style='color: #fff; font-size: 18px;'>!</div>
                     </div>
                     <h2 style='color: #1F2937; font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -0.5px;'>Risk Alerts</h2>
                 </div>
@@ -219,7 +219,7 @@ def lambda_handler(event, context):
             <div style='background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;'>
                 <div style='display: flex; align-items: center; margin-bottom: 20px;'>
                     <div style='width: 40px; height: 40px; background: linear-gradient(135deg, #6B7280, #4B5563); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 16px;'>
-                        <div style='color: #fff; font-size: 18px;'>💡</div>
+                        <div style='color: #fff; font-size: 18px;'>i</div>
                     </div>
                     <h2 style='color: #1F2937; font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -0.5px;'>Insights</h2>
                 </div>
@@ -331,7 +331,7 @@ def lambda_handler(event, context):
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>📊 Daily Market Report</h1>
+                    <h1>Daily Market Report</h1>
                     <p style="color: #6B7280; font-size: 16px; margin: 0;">Comprehensive market analysis and insights</p>
                 </div>
                 
