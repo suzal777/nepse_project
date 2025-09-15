@@ -8,6 +8,7 @@ phases:
       - echo "Installing dependencies..."
       - apt-get install -y unzip zip wget || true
       - python3 -m pip install --upgrade pip
+      - pip install -r lambdas/requirements.txt
       - pip install pytest
       - echo "Installing Terraform..."
       - wget https://releases.hashicorp.com/terraform/1.13.2/terraform_1.13.2_linux_amd64.zip
