@@ -3,7 +3,6 @@ version: 0.2
 env:
   variables:
     LAYER_DIR: "lambdas/layer"
-    LAYER_ZIP: "build/scraper_layer.zip"
 
 phases:
   install:
@@ -49,3 +48,8 @@ artifacts:
   discard-paths: no
   exclude-paths:
     - .terraform/**  
+
+cache:
+  paths:
+    - lambdas/layer/python/**/*
+    - lambdas/layer/.requirements_hash
