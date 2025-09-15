@@ -20,4 +20,4 @@ def test_notifier_lambda_simple():
 
     assert result["status"] == "success"
 
-# test7
+# test8
