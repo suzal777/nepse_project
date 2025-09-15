@@ -76,7 +76,7 @@ Perform structured analysis with these sections only:
 
 Return as plain text, starting each section with its heading in uppercase.
 
-Example output format (Return output in same structure without giving '-' in front of lines):
+Example output format (Return output in exact same structure as below):
 
 MARKET SUMMARY
 Today's market showed a mixture of strength and weakness. 
@@ -96,7 +96,7 @@ Opportunity: Stocks such as ADBSL and NCCD86 showed gains despite market volatil
 Risk: Highly volatile stocks like GHL and PPCL reported decreased end value. These might be riskier investments in current conditions.
 Risk: Stocks with significant drops, including BHPC and ALBSL, may stabilize, but caution is advised as they are likely to remain unstable.
 
-Market data:
+Here is the market data:
 {json.dumps(processed_data, indent=2)}
 """
 
