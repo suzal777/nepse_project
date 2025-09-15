@@ -1,28 +1,49 @@
 version: 0.2
-
 env:
   variables:
     LAYER_DIR: "lambdas/layer"
-
+    CACHE_KEY: "deps-cache-v1"
 phases:
   install:
     runtime-versions:
       python: 3.10
     commands:
-      - echo "Installing python dependencies"
-      - pip install -r lambdas/requirements.txt -t $LAYER_DIR/python
       - echo "Installing Terraform..."
       - wget https://releases.hashicorp.com/terraform/1.13.2/terraform_1.13.2_linux_amd64.zip
       - unzip terraform_1.13.2_linux_amd64.zip -d /usr/local/bin/
       - terraform -version
-
+  pre_build:
+    commands:
+      - echo "Checking if dependencies need to be installed"
+      - mkdir -p $LAYER_DIR/python
+      # Check if requirements have changed by comparing checksums
+      - REQUIREMENTS_HASH=$(sha256sum lambdas/requirements.txt | cut -d' ' -f1)
+      - echo "Requirements hash: $REQUIREMENTS_HASH"
+      - |
+        if [ -f "$LAYER_DIR/.requirements_hash" ] && [ "$(cat $LAYER_DIR/.requirements_hash)" = "$REQUIREMENTS_HASH" ]; then
+          echo "Dependencies unchanged, skipping installation"
+          SKIP_DEPS=true
+        else
+          echo "Dependencies changed or cache miss, installing dependencies"
+          SKIP_DEPS=false
+        fi
+      - |
+        if [ "$SKIP_DEPS" = "false" ]; then
+          echo "Installing python dependencies"
+          pip install -r lambdas/requirements.txt -t $LAYER_DIR/python
+          echo "$REQUIREMENTS_HASH" > $LAYER_DIR/.requirements_hash
+          echo "Dependencies installed and cached"
+        fi
   build:
     commands:
       - echo "Deploying with Terraform..."
       - cd terraform
       - terraform init -input=false
       - terraform apply -auto-approve -input=false
-
+cache:
+  paths:
+    - 'lambdas/layer/**/*'
+    - '/root/.cache/pip/**/*'
 artifacts:
   files:
     - '**/*'
