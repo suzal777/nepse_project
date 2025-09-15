@@ -3,6 +3,7 @@ version: 0.2
 env:
   variables:
     LAYER_DIR: "lambdas/layer"
+    CHECK_DIR: "check"
 
 phases:
   install:
@@ -20,15 +21,15 @@ phases:
     commands:
       - echo "Preparing deterministic Lambda layer..."
       - mkdir -p $LAYER_DIR/python
-      # Hash requirements.txt to check for changes
       - REQ_HASH=$(sha256sum lambdas/requirements.txt | awk '{print $1}')
-      - if [ ! -f "check/.requirements_hash" ] || [ "$(cat check/.requirements_hash)" != "$REQ_HASH" ]; then
-          echo "Dependencies changed or layer not found, installing...";
-          mkdir check
-          python3 -m pip install --no-cache-dir --upgrade-strategy only-if-needed -r lambdas/requirements.txt -t $LAYER_DIR/python;
-          echo $REQ_HASH > check/.requirements_hash;
+      - |
+        if [ ! -f "$CHECK_DIR/.requirements_hash" ] || [ "$(cat $CHECK_DIR/.requirements_hash)" != "$REQ_HASH" ]; then
+          echo "Dependencies changed or layer not found, installing..."
+          mkdir -p $CHECK_DIR
+          python3 -m pip install --no-cache-dir --upgrade-strategy only-if-needed -r lambdas/requirements.txt -t $LAYER_DIR/python
+          echo $REQ_HASH > $CHECK_DIR/.requirements_hash
         else
-          echo "Layer dependencies unchanged, skipping pip install";
+          echo "Layer dependencies unchanged, skipping pip install"
         fi
 
   build:
@@ -47,9 +48,9 @@ artifacts:
     - '**/*'
   discard-paths: no
   exclude-paths:
-    - .terraform/**  
+    - .terraform/**
 
 cache:
   paths:
-    - lambdas/layer/python/**/*
-    - check/.requirements_hash
+    - $LAYER_DIR/python/**/*
+    - $CHECK_DIR/.requirements_hash
