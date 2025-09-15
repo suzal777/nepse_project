@@ -19,3 +19,5 @@ def test_notifier_lambda_simple():
     result = notifier_lambda.lambda_handler(event, context)
 
     assert result["status"] == "success"
+
+# test1
