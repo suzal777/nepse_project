@@ -1,12 +1,17 @@
 version: 0.2
 
+env:
+  variables:
+    LAYER_DIR: "lambdas/layer"
+
 phases:
   install:
     runtime-versions:
       python: 3.10
     commands:
+      - echo "Installing python dependencies"
+      - pip install -r lambdas/requirements.txt -t $LAYER_DIR/python
       - echo "Installing Terraform..."
-      - yum install -y unzip wget || true
       - wget https://releases.hashicorp.com/terraform/1.13.2/terraform_1.13.2_linux_amd64.zip
       - unzip terraform_1.13.2_linux_amd64.zip -d /usr/local/bin/
       - terraform -version
