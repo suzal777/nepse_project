@@ -68,6 +68,12 @@ resource "aws_iam_role_policy_attachment" "lambda_s3" {
 }
 
 # --- Scraper Lambda ---
+data "archive_file" "scraper_zip" {
+  type        = "zip"
+  source_file = "${var.lambda_src_path}/scraper_lambda.py"
+  output_path = "${path.module}/../build/scraper_lambda.zip"
+}
+
 resource "aws_lambda_function" "scraper" {
   function_name    = "nepse_scraper_lambda"
   role             = aws_iam_role.lambda_role.arn
@@ -75,8 +81,10 @@ resource "aws_lambda_function" "scraper" {
   runtime          = "python3.10"
   timeout          = 30
   memory_size      = 256
-  filename         = "${path.module}/../build/scraper_lambda.zip"
-  source_code_hash = filebase64sha256("${path.module}/../build/scraper_lambda.zip")
+  filename         = data.archive_file.scraper_zip.output_path
+  source_code_hash = data.archive_file.scraper_zip.output_base64sha256
+  layers           = [aws_lambda_layer_version.scraper_layer.arn]
+
 
   environment {
     variables = {
@@ -91,7 +99,29 @@ resource "aws_lambda_function" "scraper" {
   }
 }
 
+# ----------------------
+# Lambda Layer (Scraper deps)
+# ----------------------
+data "archive_file" "scraper_layer_zip" {
+  type        = "zip"
+  source_dir  = "${var.lambda_src_path}/layer"
+  output_path = "${path.module}/../build/scraper_layer.zip"
+}
+
+resource "aws_lambda_layer_version" "scraper_layer" {
+  layer_name          = "scraper_layer"
+  filename            = data.archive_file.scraper_layer_zip.output_path
+  source_code_hash    = data.archive_file.scraper_layer_zip.output_base64sha256
+  compatible_runtimes = ["python3.10"]
+}
+
 # --- Processor Lambda ---
+data "archive_file" "processor_zip" {
+  type        = "zip"
+  source_file = "${var.lambda_src_path}/processor_lambda.py"
+  output_path = "${path.module}/../build/processor_lambda.zip"
+}
+
 resource "aws_lambda_function" "processor" {
   function_name    = "nepse_processor_lambda"
   role             = aws_iam_role.lambda_role.arn
@@ -99,8 +129,8 @@ resource "aws_lambda_function" "processor" {
   runtime          = "python3.10"
   timeout          = 30
   memory_size      = 256
-  filename         = "${path.module}/../build/processor_lambda.zip"
-  source_code_hash = filebase64sha256("${path.module}/../build/processor_lambda.zip")
+  filename         = data.archive_file.processor_zip.output_path
+  source_code_hash = data.archive_file.processor_zip.output_base64sha256
 
   environment {
     variables = {
@@ -209,6 +239,12 @@ resource "aws_iam_role_policy_attachment" "llm_lambda_eventbridge" {
 }
 
 # --- LLM Lambda Function ---
+data "archive_file" "llm_analysis_zip" {
+  type        = "zip"
+  source_file = "${var.lambda_src_path}/llm_analysis_lambda.py"
+  output_path = "${path.module}/../build/llm_analysis_lambda.zip"
+}
+
 resource "aws_lambda_function" "llm_analysis" {
   function_name    = "nepse_llm_analysis_lambda"
   role             = aws_iam_role.llm_lambda_role.arn
@@ -216,8 +252,8 @@ resource "aws_lambda_function" "llm_analysis" {
   runtime          = "python3.10"
   timeout          = 60
   memory_size      = 512
-  filename         = "${path.module}/../build/llm_analysis_lambda.zip"
-  source_code_hash = filebase64sha256("${path.module}/../build/llm_analysis_lambda.zip")
+  filename         = data.archive_file.llm_analysis_zip.output_path
+  source_code_hash = data.archive_file.llm_analysis_zip.output_base64sha256
 
   environment {
     variables = {
@@ -311,6 +347,12 @@ resource "aws_iam_role_policy_attachment" "notifier_lambda_basic" {
 }
 
 # ---------- Notifier Lambda ----------
+data "archive_file" "notifier_zip" {
+  type        = "zip"
+  source_file = "${var.lambda_src_path}/notifier_lambda.py"
+  output_path = "${path.module}/../build/notifier_lambda.zip"
+}
+
 resource "aws_lambda_function" "notifier_lambda" {
   function_name    = "nepse_notifier_lambda"
   role             = aws_iam_role.notifier_lambda_role.arn
@@ -318,8 +360,8 @@ resource "aws_lambda_function" "notifier_lambda" {
   runtime          = "python3.11"
   timeout          = 20
   memory_size      = 256
-  filename         = "${path.module}/../build/notifier_lambda.zip"
-  source_code_hash = filebase64sha256("${path.module}/../build/notifier_lambda.zip")
+  filename         = data.archive_file.notifier_zip.output_path
+  source_code_hash = data.archive_file.notifier_zip.output_base64sha256
 
   environment {
     variables = {

@@ -33,3 +33,9 @@ variable "lambda_names" {
   type    = list(string)
   default = ["scraper_lambda", "processor_lambda", "llm_analysis_lambda", "notifier_lambda"]
 }
+
+variable "lambda_src_path" {
+  description = "Path to Lambda source folder"
+  type        = string
+  default     = "../lambdas"
+}
