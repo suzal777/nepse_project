@@ -45,8 +45,7 @@ phases:
 
 artifacts:
   files:
-    - build/*.zip
-    - terraform/**
-    - lambdas/**/*.py
-    - lambdas/layer/python/**
-    - buildspec_deploy.yml
+    - '**/*'
+  discard-paths: no
+  exclude-paths:
+    - .terraform/**  
