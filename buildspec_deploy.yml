@@ -16,16 +16,15 @@ phases:
     commands:
       - echo "Checking if dependencies need to be installed"
       - mkdir -p $LAYER_DIR/python
-      # Check if requirements have changed by comparing checksums
       - REQUIREMENTS_HASH=$(sha256sum lambdas/requirements.txt | cut -d' ' -f1)
       - echo "Requirements hash: $REQUIREMENTS_HASH"
       - |
         if [ -f "$LAYER_DIR/.requirements_hash" ] && [ "$(cat $LAYER_DIR/.requirements_hash)" = "$REQUIREMENTS_HASH" ]; then
           echo "Dependencies unchanged, skipping installation"
-          SKIP_DEPS=true
+          export SKIP_DEPS=true
         else
           echo "Dependencies changed or cache miss, installing dependencies"
-          SKIP_DEPS=false
+          export SKIP_DEPS=false
         fi
       - |
         if [ "$SKIP_DEPS" = "false" ]; then
