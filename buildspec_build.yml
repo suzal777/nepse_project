@@ -22,6 +22,8 @@ phases:
       - echo "Preparing deterministic Lambda layer..."
       - mkdir -p $LAYER_DIR/python
       - mkdir -p check  # ensure check/ exists as directory
+      # If .requirements_hash is a directory, remove it
+      - if [ -d "check/.requirements_hash" ]; then rm -rf check/.requirements_hash; fi
       # Hash requirements.txt to check for changes
       - REQ_HASH=$(sha256sum lambdas/requirements.txt | awk '{print $1}')
       - if [ ! -f "check/.requirements_hash" ] || [ "$(cat check/.requirements_hash)" != "$REQ_HASH" ]; then
@@ -32,6 +34,7 @@ phases:
         else
           echo "Layer dependencies unchanged, skipping pip install";
         fi
+
 
   build:
     commands:
