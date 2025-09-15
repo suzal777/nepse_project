@@ -27,4 +27,6 @@ artifacts:
   files:
     - build/*.zip
     - terraform/**
+    - lambdas/**/*.py
+    - lambdas/requirements.txt
     - buildspec_deploy.yml
