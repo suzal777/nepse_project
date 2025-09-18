@@ -1,0 +1,548 @@
+[
+  {
+    "row": {
+      "Symbol": "C30MF",
+      "Open": 9.1,
+      "High": 9.1,
+      "Low": 9.09,
+      "Close": 9.09,
+      "LTP": 9.09,
+      "Vol": 2400.0,
+      "Turnover": 21821.0,
+      "Diff %": -1.2
+    },
+    "reason": "Close price 9.09 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "CMF2",
+      "Open": 9.53,
+      "High": 9.53,
+      "Low": 9.53,
+      "Close": 9.53,
+      "LTP": 9.53,
+      "Vol": 10400.0,
+      "Turnover": 99112.0,
+      "Diff %": -1.95
+    },
+    "reason": "Close price 9.53 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "GBIMESY2",
+      "Open": 9.0,
+      "High": 9.3,
+      "Low": 9.0,
+      "Close": 9.12,
+      "LTP": 9.12,
+      "Vol": 3850.0,
+      "Turnover": 35178.0,
+      "Diff %": 1.33
+    },
+    "reason": "Close price 9.12 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "GIBF1",
+      "Open": 11.22,
+      "High": 11.22,
+      "Low": 11.03,
+      "Close": 11.06,
+      "LTP": 11.06,
+      "Vol": 16200.0,
+      "Turnover": 179319.0,
+      "Diff %": 0.45
+    },
+    "reason": "Close price 11.06 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "GSY",
+      "Open": 8.9,
+      "High": 9.24,
+      "Low": 8.9,
+      "Close": 9.1,
+      "LTP": 9.1,
+      "Vol": 6000.0,
+      "Turnover": 54123.0,
+      "Diff %": 0.44
+    },
+    "reason": "Close price 9.1 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "H8020",
+      "Open": 11.9,
+      "High": 12.21,
+      "Low": 11.9,
+      "Close": 12.18,
+      "LTP": 12.19,
+      "Vol": 121700.0,
+      "Turnover": 1482243.8,
+      "Diff %": 1.67
+    },
+    "reason": "Close price 12.18 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "KDBY",
+      "Open": 9.2,
+      "High": 9.25,
+      "Low": 9.02,
+      "Close": 9.2,
+      "LTP": 9.25,
+      "Vol": 5050.0,
+      "Turnover": 46353.5,
+      "Diff %": -1.08
+    },
+    "reason": "Close price 9.2 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "KEF",
+      "Open": 8.99,
+      "High": 9.12,
+      "Low": 8.94,
+      "Close": 8.94,
+      "LTP": 8.94,
+      "Vol": 1300.0,
+      "Turnover": 11678.0,
+      "Diff %": -2.51
+    },
+    "reason": "Close price 8.94 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "KSY",
+      "Open": 8.83,
+      "High": 9.0,
+      "Low": 8.83,
+      "Close": 9.0,
+      "LTP": 9.0,
+      "Vol": 900.0,
+      "Turnover": 8047.0,
+      "Diff %": 0.56
+    },
+    "reason": "Close price 9.0 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "LUK",
+      "Open": 9.58,
+      "High": 9.58,
+      "Low": 9.21,
+      "Close": 9.21,
+      "LTP": 9.21,
+      "Vol": 15301.0,
+      "Turnover": 144128.18,
+      "Diff %": -2.02
+    },
+    "reason": "Close price 9.21 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "LVF2",
+      "Open": 9.11,
+      "High": 9.12,
+      "Low": 9.11,
+      "Close": 9.12,
+      "LTP": 9.12,
+      "Vol": 1450.0,
+      "Turnover": 13221.0,
+      "Diff %": -0.33
+    },
+    "reason": "Close price 9.12 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "MBLEF",
+      "Open": 9.0,
+      "High": 9.24,
+      "Low": 8.95,
+      "Close": 8.96,
+      "LTP": 8.96,
+      "Vol": 1500.0,
+      "Turnover": 13593.0,
+      "Diff %": -1.1
+    },
+    "reason": "Close price 8.96 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "MMF1",
+      "Open": 9.94,
+      "High": 9.94,
+      "Low": 9.75,
+      "Close": 9.75,
+      "LTP": 9.75,
+      "Vol": 318950.0,
+      "Turnover": 3124159.15,
+      "Diff %": -0.81
+    },
+    "reason": "Close price 9.75 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "MNMF1",
+      "Open": 9.0,
+      "High": 9.1,
+      "Low": 9.0,
+      "Close": 9.01,
+      "LTP": 9.01,
+      "Vol": 2400.0,
+      "Turnover": 21622.0,
+      "Diff %": -0.99
+    },
+    "reason": "Close price 9.01 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NBF2",
+      "Open": 9.63,
+      "High": 9.63,
+      "Low": 9.37,
+      "Close": 9.38,
+      "LTP": 9.38,
+      "Vol": 68200.0,
+      "Turnover": 648216.6,
+      "Diff %": -0.74
+    },
+    "reason": "Close price 9.38 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NBF3",
+      "Open": 9.06,
+      "High": 9.2,
+      "Low": 9.06,
+      "Close": 9.17,
+      "LTP": 9.19,
+      "Vol": 93000.0,
+      "Turnover": 850285.0,
+      "Diff %": -0.65
+    },
+    "reason": "Close price 9.17 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NIBLGF",
+      "Open": 9.7,
+      "High": 9.72,
+      "Low": 9.64,
+      "Close": 9.64,
+      "LTP": 9.64,
+      "Vol": 23600.0,
+      "Turnover": 228898.0,
+      "Diff %": -1.53
+    },
+    "reason": "Close price 9.64 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NIBLSTF",
+      "Open": 8.36,
+      "High": 8.62,
+      "Low": 8.36,
+      "Close": 8.62,
+      "LTP": 8.62,
+      "Vol": 7350.0,
+      "Turnover": 63013.6,
+      "Diff %": 1.17
+    },
+    "reason": "Close price 8.62 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NIBSF2",
+      "Open": 9.42,
+      "High": 9.42,
+      "Low": 9.14,
+      "Close": 9.33,
+      "LTP": 9.33,
+      "Vol": 29700.0,
+      "Turnover": 273082.0,
+      "Diff %": 0.76
+    },
+    "reason": "Close price 9.33 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NICBF",
+      "Open": 9.12,
+      "High": 9.12,
+      "Low": 9.12,
+      "Close": 9.12,
+      "LTP": 9.12,
+      "Vol": 5000.0,
+      "Turnover": 45600.0,
+      "Diff %": 0.0
+    },
+    "reason": "Close price 9.12 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NICFC",
+      "Open": 8.82,
+      "High": 9.18,
+      "Low": 8.82,
+      "Close": 9.1,
+      "LTP": 9.1,
+      "Vol": 3390.0,
+      "Turnover": 30576.0,
+      "Diff %": 1.11
+    },
+    "reason": "Close price 9.1 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NICGF2",
+      "Open": 8.66,
+      "High": 8.99,
+      "Low": 8.66,
+      "Close": 8.7,
+      "LTP": 8.7,
+      "Vol": 63550.0,
+      "Turnover": 553925.0,
+      "Diff %": -1.36
+    },
+    "reason": "Close price 8.7 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NICSF",
+      "Open": 8.81,
+      "High": 8.9,
+      "Low": 8.81,
+      "Close": 8.89,
+      "LTP": 8.9,
+      "Vol": 12400.0,
+      "Turnover": 109654.0,
+      "Diff %": -0.34
+    },
+    "reason": "Close price 8.89 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NMB50",
+      "Open": 10.11,
+      "High": 10.27,
+      "Low": 10.11,
+      "Close": 10.12,
+      "LTP": 10.13,
+      "Vol": 27300.0,
+      "Turnover": 277529.0,
+      "Diff %": 0.0
+    },
+    "reason": "Close price 10.12 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NMBHF2",
+      "Open": 8.98,
+      "High": 9.1,
+      "Low": 8.98,
+      "Close": 9.0,
+      "LTP": 9.0,
+      "Vol": 3390.0,
+      "Turnover": 30494.5,
+      "Diff %": -1.64
+    },
+    "reason": "Close price 9.0 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "NSIF2",
+      "Open": 10.03,
+      "High": 10.09,
+      "Low": 9.9,
+      "Close": 10.0,
+      "LTP": 10.0,
+      "Vol": 95400.0,
+      "Turnover": 946503.0,
+      "Diff %": -0.99
+    },
+    "reason": "Close price 10.0 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "PRSF",
+      "Open": 10.23,
+      "High": 10.55,
+      "Low": 10.23,
+      "Close": 10.54,
+      "LTP": 10.54,
+      "Vol": 500.0,
+      "Turnover": 5192.0,
+      "Diff %": 1.64
+    },
+    "reason": "Close price 10.54 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "PSF",
+      "Open": 10.45,
+      "High": 10.65,
+      "Low": 10.45,
+      "Close": 10.65,
+      "LTP": 10.65,
+      "Vol": 110990.0,
+      "Turnover": 1166832.5,
+      "Diff %": 0.0
+    },
+    "reason": "Close price 10.65 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "RMF1",
+      "Open": 9.2,
+      "High": 9.32,
+      "Low": 9.03,
+      "Close": 9.32,
+      "LTP": 9.32,
+      "Vol": 30350.0,
+      "Turnover": 279242.06,
+      "Diff %": 1.3
+    },
+    "reason": "Close price 9.32 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "RMF2",
+      "Open": 9.01,
+      "High": 9.19,
+      "Low": 8.85,
+      "Close": 9.19,
+      "LTP": 9.19,
+      "Vol": 56650.0,
+      "Turnover": 512492.95,
+      "Diff %": 0.33
+    },
+    "reason": "Close price 9.19 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "RSY",
+      "Open": 9.1,
+      "High": 9.1,
+      "Low": 8.92,
+      "Close": 8.96,
+      "LTP": 8.96,
+      "Vol": 1100.0,
+      "Turnover": 9915.0,
+      "Diff %": 0.11
+    },
+    "reason": "Close price 8.96 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "SAGF",
+      "Open": 9.63,
+      "High": 9.63,
+      "Low": 9.28,
+      "Close": 9.3,
+      "LTP": 9.3,
+      "Vol": 6370.0,
+      "Turnover": 60037.6,
+      "Diff %": -1.69
+    },
+    "reason": "Close price 9.3 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "SBCF",
+      "Open": 9.12,
+      "High": 9.15,
+      "Low": 9.12,
+      "Close": 9.12,
+      "LTP": 9.12,
+      "Vol": 6800.0,
+      "Turnover": 62141.0,
+      "Diff %": -0.33
+    },
+    "reason": "Close price 9.12 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "SEF",
+      "Open": 9.55,
+      "High": 9.55,
+      "Low": 9.19,
+      "Close": 9.3,
+      "LTP": 9.3,
+      "Vol": 2601.0,
+      "Turnover": 24172.5,
+      "Diff %": -1.06
+    },
+    "reason": "Close price 9.3 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "SFEF",
+      "Open": 9.1,
+      "High": 9.23,
+      "Low": 9.05,
+      "Close": 9.23,
+      "LTP": 9.23,
+      "Vol": 3400.0,
+      "Turnover": 31168.0,
+      "Diff %": -0.54
+    },
+    "reason": "Close price 9.23 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "SFMF",
+      "Open": 9.59,
+      "High": 9.6,
+      "Low": 9.59,
+      "Close": 9.59,
+      "LTP": 9.59,
+      "Vol": 16600.0,
+      "Turnover": 159204.0,
+      "Diff %": -1.64
+    },
+    "reason": "Close price 9.59 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "SIGS2",
+      "Open": 9.5,
+      "High": 9.5,
+      "Low": 9.25,
+      "Close": 9.25,
+      "LTP": 9.25,
+      "Vol": 17950.0,
+      "Turnover": 167156.0,
+      "Diff %": -2.63
+    },
+    "reason": "Close price 9.25 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "SIGS3",
+      "Open": 9.22,
+      "High": 9.3,
+      "Low": 9.22,
+      "Close": 9.22,
+      "LTP": 9.22,
+      "Vol": 16400.0,
+      "Turnover": 151319.0,
+      "Diff %": -0.65
+    },
+    "reason": "Close price 9.22 < 20 (likely mutual fund)"
+  },
+  {
+    "row": {
+      "Symbol": "SLCF",
+      "Open": 9.25,
+      "High": 9.26,
+      "Low": 9.08,
+      "Close": 9.09,
+      "LTP": 9.09,
+      "Vol": 28200.0,
+      "Turnover": 257192.0,
+      "Diff %": -3.3
+    },
+    "reason": "Close price 9.09 < 20 (likely mutual fund)"
+  }
+]
