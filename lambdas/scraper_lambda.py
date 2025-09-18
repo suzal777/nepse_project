@@ -13,7 +13,7 @@ BUCKET_NAME = os.environ["BUCKET_NAME"]
 TARGET_URL = os.environ.get("TARGET_URL", "https://www.sharesansar.com/today-share-price")
 
 MAX_RETRIES = 3
-RETRY_DELAY = 2  # seconds
+RETRY_DELAY = 2 
 
 def lambda_handler(event, context):
     correlation_id = str(uuid.uuid4())
