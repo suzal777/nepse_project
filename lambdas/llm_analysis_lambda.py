@@ -24,6 +24,19 @@ def _convert_numeric_to_decimal(obj):
         return Decimal(str(obj))
     return obj
 
+def _send_event_to_bus(event_bus_name, detail):
+    if not event_bus_name:
+        return
+    entry = {
+        "Source": "llm_analysis",
+        "DetailType": "AnomalyDetected",
+        "Detail": json.dumps(detail),
+        "EventBusName": event_bus_name
+    }
+    resp = events.put_events(Entries=[entry])
+    print("EventBridge response:", resp)
+    return resp     
+
 
 def lambda_handler(event, context):
     correlation_id = str(uuid.uuid4())
@@ -39,19 +52,7 @@ def lambda_handler(event, context):
         # --- Derive metadata key ---
         if key.startswith("processed/") and key.endswith(".json"):
             date_prefix = key.split("/")[1]       
-            filename = key.split("/")[-1]  
-def _send_event_to_bus(event_bus_name, detail):
-    if not event_bus_name:
-        return
-    entry = {
-        "Source": "llm_analysis",
-        "DetailType": "AnomalyDetected",
-        "Detail": json.dumps(detail),
-        "EventBusName": event_bus_name
-    }
-    resp = events.put_events(Entries=[entry])
-    print("EventBridge response:", resp)
-    return resp       
+            filename = key.split("/")[-1]        
             base = filename.replace(".json", "")  
             metadata_key = f"metadata/{date_prefix}/{base}_meta.json"
         else:
