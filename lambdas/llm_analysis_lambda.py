@@ -35,7 +35,8 @@ def _send_event_to_bus(event_bus_name, detail):
     }
     resp = events.put_events(Entries=[entry])
     print("EventBridge response:", resp)
-    return resp
+    return resp     
+
 
 def lambda_handler(event, context):
     correlation_id = str(uuid.uuid4())
@@ -51,7 +52,7 @@ def lambda_handler(event, context):
         # --- Derive metadata key ---
         if key.startswith("processed/") and key.endswith(".json"):
             date_prefix = key.split("/")[1]       
-            filename = key.split("/")[-1]         
+            filename = key.split("/")[-1]        
             base = filename.replace(".json", "")  
             metadata_key = f"metadata/{date_prefix}/{base}_meta.json"
         else:
