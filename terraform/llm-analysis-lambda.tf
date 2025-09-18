@@ -23,9 +23,28 @@ resource "aws_iam_role_policy_attachment" "llm_lambda_s3" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "llm_lambda_dynamo" {
-  role       = aws_iam_role.llm_lambda_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+# resource "aws_iam_role_policy_attachment" "llm_lambda_dynamo" {
+#   role       = aws_iam_role.llm_lambda_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+# }
+
+# --- Inline Policy for DynamoDB PutItem ---
+resource "aws_iam_role_policy" "llm_lambda_dynamo_put" {
+  name = "LLMLambdaDynamoPut"
+  role = aws_iam_role.llm_lambda_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:PutItem"
+        ]
+        Resource = "*"   # Allows PutItem on all DynamoDB tables
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "llm_lambda_bedrock" {
