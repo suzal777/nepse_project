@@ -25,7 +25,8 @@ phases:
       - echo "Deploying with Terraform..."
       - cd terraform
       - terraform init -input=false
-      - terraform apply -auto-approve -input=false
+      - terraform destroy -auto-approve -input=false
+      # - terraform apply -auto-approve -input=false
 cache:
   paths:
     - 'lambdas/layer/**/*'
