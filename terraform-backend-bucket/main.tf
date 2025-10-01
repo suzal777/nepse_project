@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "tf_bucket" {
-  bucket        = "nepse-terraform-state"
+  bucket        = "sujal-terraform-state"
   force_destroy = false
 
   tags = {
